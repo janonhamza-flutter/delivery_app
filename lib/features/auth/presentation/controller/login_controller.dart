@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/route/app_routes.dart';
 import '../../data/repositories/auth_repository.dart';
 
 class LoginController extends GetxController {
@@ -19,7 +20,7 @@ class LoginController extends GetxController {
 
     // API لاحقاً
 
-    // Get.toNamed(AppRoutes.otp);
+    Get.toNamed(AppRoutes.otp);
   }
 
   @override

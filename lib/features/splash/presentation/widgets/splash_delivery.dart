@@ -1,4 +1,4 @@
-import 'package:delivery_app/core/constants/app_asstes.dart';
+import 'package:delivery_app/core/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 
 class SplashDelivery extends StatelessWidget {
@@ -6,6 +6,12 @@ class SplashDelivery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(AppAssets.deliveryBoy, width: 220);
+    final size = MediaQuery.of(context).size;
+
+    return Image.asset(
+      AppAssets.deliveryBoy,
+      height: MediaQuery.of(context).size.height * 0.28,
+      fit: BoxFit.contain,
+    );
   }
 }

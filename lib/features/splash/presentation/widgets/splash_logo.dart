@@ -1,4 +1,3 @@
-import 'package:delivery_app/core/constants/app_asstes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_strings.dart';
@@ -11,7 +10,7 @@ class SplashLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(AppAssets.splashBackground, width: 220),
+        const FlutterLogo(size: 120),
 
         const SizedBox(height: 30),
 

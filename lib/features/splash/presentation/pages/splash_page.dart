@@ -9,11 +9,17 @@ import '../widgets/splash_delivery.dart';
 import '../widgets/splash_loading.dart';
 import '../widgets/splash_logo.dart';
 
-class SplashPage extends GetView<SplashController> {
-  const SplashPage({super.key});
+//class SplashPage extends GetView<SplashController> {
+//const SplashPage({super.key});
 
+class SplashPage extends StatelessWidget {
+  SplashPage({super.key});
+
+  final controller = Get.put(SplashController());
   @override
   Widget build(BuildContext context) {
+    print("Splash Page Build");
+    print(Get.isRegistered<SplashController>());
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -32,22 +38,35 @@ class SplashPage extends GetView<SplashController> {
           child: Padding(
             padding: const EdgeInsets.all(AppSizes.padding),
 
-            child: Column(
-              children: [
-                const Spacer(),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          const Spacer(),
 
-                const SplashLogo(),
+                          const SplashLogo(),
 
-                const SizedBox(height: 35),
+                          const SizedBox(height: 20),
 
-                const SplashDelivery(),
+                          const SplashDelivery(),
 
-                const Spacer(),
+                          const Spacer(),
 
-                const SplashLoading(),
+                          const SplashLoading(),
 
-                const SizedBox(height: 40),
-              ],
+                          const SizedBox(height: 25),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ),
