@@ -11,15 +11,12 @@ import '../widgets/splash_logo.dart';
 
 //class SplashPage extends GetView<SplashController> {
 //const SplashPage({super.key});
-
 class SplashPage extends StatelessWidget {
   SplashPage({super.key});
 
   final controller = Get.put(SplashController());
   @override
   Widget build(BuildContext context) {
-    print("Splash Page Build");
-    print(Get.isRegistered<SplashController>());
     return Scaffold(
       body: Container(
         width: double.infinity,
