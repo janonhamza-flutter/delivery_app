@@ -32,7 +32,7 @@ class OtpPage extends GetView<OtpController> {
 
               const SizedBox(height: 10),
 
-              const Text("Enter the 4-digit code sent to your phone."),
+              const Text("Enter the 5-digit code sent to your phone."),
 
               const SizedBox(height: 40),
 

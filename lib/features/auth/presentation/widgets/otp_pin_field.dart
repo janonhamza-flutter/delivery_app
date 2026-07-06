@@ -15,7 +15,7 @@ class OtpPinField extends StatelessWidget {
 
       controller: controller,
 
-      length: 4,
+      length: 5,
 
       keyboardType: TextInputType.number,
 

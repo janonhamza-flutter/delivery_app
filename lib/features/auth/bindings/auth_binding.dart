@@ -15,6 +15,6 @@ class AuthBinding extends Bindings {
     Get.lazyPut<LoginController>(
       () => LoginController(Get.find<AuthRepository>()),
     );
-    Get.lazyPut<OtpController>(() => OtpController());
+    Get.lazyPut<OtpController>(() => OtpController(Get.find<AuthRepository>()));
   }
 }

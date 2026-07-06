@@ -41,11 +41,7 @@ class LoginPage extends GetView<LoginController> {
                   const SizedBox(height: 35),
 
                   /// Continue Button
-                  AuthButton(
-                    onPressed: () {
-                      controller.continueLogin();
-                    },
-                  ),
+                  AuthButton(onPressed: controller.sendOtp),
                 ],
               ),
             ),
