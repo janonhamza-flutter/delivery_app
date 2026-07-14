@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
+import 'core/bindings/initial_binding.dart';
 import 'core/route/app_pages.dart';
 import 'core/route/app_routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await GetStorage.init();
+
   runApp(const DeliveryApp());
 }
 
@@ -15,7 +21,8 @@ class DeliveryApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.home,
+      initialBinding: InitialBinding(),
+      initialRoute: AppRoutes.splash,
       getPages: AppPages.pages,
     );
   }

@@ -88,6 +88,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/route/app_routes.dart';
+import '../../../../core/services/storage_service.dart';
 import '../../data/repositories/auth_repository.dart';
 
 class OtpController extends GetxController {
@@ -164,8 +165,13 @@ class OtpController extends GetxController {
       print(response.data);
 
       // سنحفظ التوكن لاحقًا
-      Get.offAllNamed(AppRoutes.home);
+      final token = response.data["data"]["token"];
+      StorageService.saveToken(token);
+
+      Get.offAllNamed(AppRoutes.main);
     } on DioException catch (e) {
+      print("Status: ${e.response?.statusCode}");
+      print("Data: ${e.response?.data}");
       Get.snackbar(
         "تنبيه",
         ErrorHandler.getMessage(e),

@@ -8,8 +8,6 @@ import '../presentation/controller/otp_controller.dart';
 class AuthBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DioService>(() => DioService());
-
     Get.lazyPut<AuthRepository>(() => AuthRepository(Get.find<DioService>()));
 
     Get.lazyPut<LoginController>(
