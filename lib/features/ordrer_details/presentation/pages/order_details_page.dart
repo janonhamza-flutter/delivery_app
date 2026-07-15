@@ -21,7 +21,31 @@ class OrderDetailsPage extends GetView<OrderDetailsController> {
         padding: const EdgeInsets.all(AppSizes.padding),
 
         child: Column(
-          children: const [
+          children: [
+            // status
+            Row(
+              children: [
+                Text(
+                  "Status",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+
+                SizedBox(width: 12),
+
+                Chip(
+                  backgroundColor: Colors.orange.shade100,
+                  label: Text(
+                    "Pending",
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20),
             CustomerCard(),
 
             SizedBox(height: 18),

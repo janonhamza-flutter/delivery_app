@@ -27,7 +27,7 @@ class CustomerCard extends StatelessWidget {
               subtitle: const Text("+963936539965"),
               trailing: IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.call),
+                icon: const Icon(Icons.call, color: Colors.green),
               ),
             ),
           ],

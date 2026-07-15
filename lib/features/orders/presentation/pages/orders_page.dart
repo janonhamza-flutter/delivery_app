@@ -17,13 +17,22 @@ class OrdersPage extends GetView<OrdersController> {
       body: Padding(
         padding: const EdgeInsets.all(AppSizes.padding),
 
-        child: ListView.builder(
-          itemCount: 8,
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-          itemBuilder: (_, index) {
-            return const OrderItem();
-          },
-        ),
+          if (controller.orders.isEmpty) {
+            return const Center(child: Text("No Orders"));
+          }
+
+          return ListView.builder(
+            itemCount: controller.orders.length,
+            itemBuilder: (_, index) {
+              return OrderItem(order: controller.orders[index]);
+            },
+          );
+        }),
       ),
     );
   }

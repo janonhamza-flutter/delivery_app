@@ -14,4 +14,12 @@ class ProfileRepository {
       token: StorageService.getToken(),
     );
   }
+
+  Future<Response> logout() async {
+    return await dioService.postData(
+      endpoint: "/delivery/logout",
+      data: {},
+      token: StorageService.getToken(),
+    );
+  }
 }
