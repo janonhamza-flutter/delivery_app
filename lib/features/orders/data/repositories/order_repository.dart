@@ -16,4 +16,23 @@ class OrdersRepository {
       token: StorageService.getToken(),
     );
   }
+
+  Future<Response> acceptOrder({
+    required int orderId,
+    required String estimatedTime,
+  }) async {
+    return await dioService.postData(
+      endpoint: "/delivery/requests/$orderId/accept",
+      token: StorageService.getToken(),
+      data: {"estimated_time": estimatedTime},
+    );
+  }
+
+  Future<Response> rejectOrder({required int orderId}) async {
+    return await dioService.postData(
+      endpoint: "/delivery/requests/$orderId/reject",
+      token: StorageService.getToken(),
+      data: {},
+    );
+  }
 }

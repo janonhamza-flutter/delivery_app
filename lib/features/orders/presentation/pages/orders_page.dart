@@ -7,7 +7,7 @@ import '../controller/orders_controller.dart';
 import '../widgets/order_item.dart';
 
 class OrdersPage extends GetView<OrdersController> {
-  const OrdersPage({super.key});
+  OrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/route/app_routes.dart';
-import '../../../../core/theme/app_colors.dart';
+
+import '../../../orders/data/models/order_model.dart';
+import '../../../orders/presentation/controller/orders_controller.dart';
 
 class ActionButtons extends StatelessWidget {
-  const ActionButtons({super.key});
+  ActionButtons({super.key, required this.order});
+
+  final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<OrdersController>();
     return Column(
       children: [
         /// Accept Button
@@ -25,7 +31,12 @@ class ActionButtons extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Get.toNamed(AppRoutes.activeDelivery);
+              controller.acceptOrder(
+                orderId: order.id,
+                estimatedTime: DateFormat(
+                  "yyyy-MM-dd HH:mm:ss",
+                ).format(DateTime.now().add(const Duration(minutes: 30))),
+              );
             },
             icon: const Icon(Icons.check_circle_outline),
             label: const Text(
@@ -50,7 +61,9 @@ class ActionButtons extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Get.back(); // أو ضعي الكود المناسب للرفض لاحقًا
+              controller.rejectOrder(
+                orderId: order.id,
+              ); // أو ضعي الكود المناسب للرفض لاحقًا
             },
             icon: const Icon(Icons.close),
             label: const Text(

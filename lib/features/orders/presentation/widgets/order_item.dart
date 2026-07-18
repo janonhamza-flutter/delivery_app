@@ -14,7 +14,7 @@ class OrderItem extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(18),
       onTap: () {
-        Get.toNamed(AppRoutes.orderDetails);
+        Get.toNamed(AppRoutes.orderDetails, arguments: order);
       },
       child: Card(
         margin: const EdgeInsets.only(bottom: 15),

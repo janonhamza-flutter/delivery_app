@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/app_sizes.dart';
+import '../../../orders/data/models/order_model.dart';
 import '../controller/order_details_controller.dart';
 
 import '../widgets/address_card.dart';
@@ -10,8 +11,9 @@ import '../widgets/customer_card.dart';
 import '../widgets/device_card.dart';
 
 class OrderDetailsPage extends GetView<OrderDetailsController> {
-  const OrderDetailsPage({super.key});
+  OrderDetailsPage({super.key});
 
+  final OrderModel order = Get.arguments as OrderModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +37,7 @@ class OrderDetailsPage extends GetView<OrderDetailsController> {
                 Chip(
                   backgroundColor: Colors.orange.shade100,
                   label: Text(
-                    "Pending",
+                    order.status,
                     style: TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.bold,
@@ -46,19 +48,19 @@ class OrderDetailsPage extends GetView<OrderDetailsController> {
             ),
 
             SizedBox(height: 20),
-            CustomerCard(),
+            CustomerCard(order: order),
 
             SizedBox(height: 18),
 
-            AddressCard(),
+            AddressCard(order: order),
 
             SizedBox(height: 18),
 
-            DeviceCard(),
+            DeviceCard(order: order),
 
             SizedBox(height: 30),
 
-            ActionButtons(),
+            ActionButtons(order: order),
           ],
         ),
       ),

@@ -10,6 +10,9 @@ class OrderModel {
   final String shopName;
   final String shopAddress;
 
+  final double? latitude;
+  final double? longitude;
+
   OrderModel({
     required this.id,
     required this.type,
@@ -19,6 +22,8 @@ class OrderModel {
     required this.customerPhone,
     required this.shopName,
     required this.shopAddress,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +41,9 @@ class OrderModel {
       shopName: json["shop"]["name"],
 
       shopAddress: json["shop"]["address"],
+
+      latitude: double.tryParse(json["latitude"]?.toString() ?? ""),
+      longitude: double.tryParse(json["longitude"]?.toString() ?? ""),
     );
   }
 }
