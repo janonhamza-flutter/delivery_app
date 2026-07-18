@@ -10,7 +10,7 @@ class LoginHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(AppAssets.logo, width: 120),
+       // Image.asset(AppAssets.logo, width: 120),
 
         const SizedBox(height: 20),
 
