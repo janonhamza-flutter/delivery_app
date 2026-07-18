@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 
 import '../../../../core/services/dio_service.dart';
@@ -33,6 +35,32 @@ class OrdersRepository {
       endpoint: "/delivery/requests/$orderId/reject",
       token: StorageService.getToken(),
       data: {},
+    );
+  }
+
+  Future<Response> confirmDelivery({
+    required int orderId,
+    String? confirmationCode,
+    File? image,
+  }) async {
+    final token = StorageService.getToken();
+
+    FormData formData = FormData();
+
+    if (confirmationCode != null && confirmationCode.isNotEmpty) {
+      formData.fields.add(MapEntry("confirmation_code", confirmationCode));
+    }
+
+    if (image != null) {
+      formData.files.add(
+        MapEntry("image", await MultipartFile.fromFile(image.path)),
+      );
+    }
+
+    return await dioService.postFormData(
+      endpoint: "/delivery/requests/$orderId/confirm",
+      data: formData,
+      token: token,
     );
   }
 }

@@ -26,11 +26,14 @@ class OrdersPage extends GetView<OrdersController> {
             return const Center(child: Text("No Orders"));
           }
 
-          return ListView.builder(
-            itemCount: controller.orders.length,
-            itemBuilder: (_, index) {
-              return OrderItem(order: controller.orders[index]);
-            },
+          return RefreshIndicator(
+            onRefresh: controller.getOrders,
+            child: ListView.builder(
+              itemCount: controller.orders.length,
+              itemBuilder: (_, index) {
+                return OrderItem(order: controller.orders[index]);
+              },
+            ),
           );
         }),
       ),

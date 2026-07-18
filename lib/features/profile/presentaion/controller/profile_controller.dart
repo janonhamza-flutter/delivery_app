@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/route/app_routes.dart';
 import '../../../../core/services/storage_service.dart';
+import '../../../../core/utils/app_snackbar.dart';
 import '../../data/models/profile_model.dart';
 import '../../data/repositories/profile_repository.dart';
 
@@ -29,7 +30,7 @@ class ProfileController extends GetxController {
 
       profile.value = ProfileModel.fromJson(response.data["data"]);
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      AppSnackbar.error(e.toString());
     } finally {
       isLoading.value = false;
     }

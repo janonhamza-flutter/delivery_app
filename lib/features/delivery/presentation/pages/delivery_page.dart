@@ -6,6 +6,7 @@ import '../../../../core/constants/app_sizes.dart';
 import '../../../orders/data/models/order_model.dart';
 import '../controller/delivery_controller.dart';
 import '../widgets/customer_info_card.dart';
+import '../widgets/delivery_status_card.dart';
 import '../widgets/map_card.dart';
 import '../widgets/cash_card.dart';
 import '../widgets/delivery_actions.dart';
@@ -23,6 +24,10 @@ class ActiveDeliveryPage extends GetView<ActiveDeliveryController> {
         padding: const EdgeInsets.all(AppSizes.padding),
         child: Column(
           children: [
+            DeliveryStatusCard(order: order),
+
+            const SizedBox(height: 20),
+
             CustomerInfoCard(order: order),
 
             const SizedBox(height: 20),

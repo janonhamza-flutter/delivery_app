@@ -1,8 +1,10 @@
-import 'package:dio/dio.dart';
+import 'dart:io';
+
 import 'package:get/get.dart';
 
 import '../../../../core/route/app_routes.dart';
-import '../../../../core/services/storage_service.dart';
+
+import '../../../../core/utils/app_snackbar.dart';
 import '../../data/models/order_model.dart';
 import '../../data/repositories/order_repository.dart';
 
@@ -12,6 +14,7 @@ class OrdersController extends GetxController {
   final OrdersRepository repository;
 
   final isLoading = false.obs;
+  final isActionLoading = false.obs;
 
   final orders = <OrderModel>[].obs;
 
@@ -49,46 +52,72 @@ class OrdersController extends GetxController {
   }
 
   Future<void> acceptOrder({
-    required int orderId,
+    required OrderModel order,
     required String estimatedTime,
   }) async {
     try {
-      print("Accept Order ID = $orderId");
+      isActionLoading.value = true;
+      print("Accept Order ID = $order");
       print("Estimated Time = $estimatedTime");
 
       final response = await repository.acceptOrder(
-        orderId: orderId,
+        orderId: order.id,
         estimatedTime: estimatedTime,
       );
       print(response.data);
 
-      Get.snackbar("Success", response.data["message"]);
+      AppSnackbar.success(response.data["message"]);
 
       await getOrders();
 
-      Get.offNamed(
-        AppRoutes.activeDelivery,
-        arguments: orders.firstWhere(
-          (e) => e.id == orderId,
-          orElse: () => throw Exception("Order not found"),
-        ),
-      );
+      Get.offNamed(AppRoutes.activeDelivery, arguments: order);
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      AppSnackbar.error(e.toString());
+    } finally {
+      isActionLoading.value = false;
     }
   }
 
   Future<void> rejectOrder({required int orderId}) async {
     try {
+      isActionLoading.value = true;
       final response = await repository.rejectOrder(orderId: orderId);
 
-      Get.snackbar("Success", response.data["message"]);
+      AppSnackbar.success(response.data["message"]);
 
       getOrders();
 
       Get.back();
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      AppSnackbar.error(e.toString());
+    } finally {
+      isActionLoading.value = false;
+    }
+  }
+
+  Future<void> confirmDelivery({
+    required int orderId,
+    String? confirmationCode,
+    File? image,
+  }) async {
+    try {
+      isActionLoading.value = true;
+
+      final response = await repository.confirmDelivery(
+        orderId: orderId,
+        confirmationCode: confirmationCode,
+        image: image,
+      );
+
+      AppSnackbar.success(response.data["message"]);
+
+      getOrders();
+
+      Get.offAllNamed(AppRoutes.main);
+    } catch (e) {
+      AppSnackbar.error(e.toString());
+    } finally {
+      isActionLoading.value = false;
     }
   }
 }
