@@ -95,6 +95,7 @@ class ProfilePage extends GetView<ProfileController> {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () {
+                    controller.logout();
                     // سنربطه لاحقًا مع Logout API
                   },
                   icon: const Icon(Icons.logout),

@@ -47,6 +47,8 @@ dependencies:
   firebase_messaging: ^16.4.1
   flutter_local_notifications: ^20.1.0
   flutter_animate: ^4.5.2
+  url_launcher: ^6.3.2
+  intl: ^0.20.3
 
 dependency_overrides:
   google_maps_flutter_android: 2.14.9

@@ -29,37 +29,33 @@ class AppPages {
     // سنضيف Login لاحقًا
     GetPage(
       name: AppRoutes.login,
-      page: () => const LoginPage(),
+      page: () => LoginPage(),
       binding: AuthBinding(),
     ),
 
-    GetPage(
-      name: AppRoutes.otp,
-      page: () => const OtpPage(),
-      binding: AuthBinding(),
-    ),
+    GetPage(name: AppRoutes.otp, page: () => OtpPage(), binding: AuthBinding()),
 
     GetPage(
       name: AppRoutes.home,
-      page: () => const HomePage(),
+      page: () => HomePage(),
       binding: HomeBinding(),
     ),
 
     GetPage(
       name: AppRoutes.main,
-      page: () => const MainPage(),
+      page: () => MainPage(),
       binding: MainBinding(),
     ),
 
     GetPage(
       name: AppRoutes.orderDetails,
-      page: () => const OrderDetailsPage(),
+      page: () => OrderDetailsPage(),
       binding: OrderDetailsBinding(),
     ),
 
     GetPage(
       name: AppRoutes.activeDelivery,
-      page: () => const ActiveDeliveryPage(),
+      page: () => ActiveDeliveryPage(),
       binding: ActiveDeliveryBinding(),
     ),
   ];

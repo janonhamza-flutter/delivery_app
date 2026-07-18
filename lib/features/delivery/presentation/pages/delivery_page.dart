@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/constants/app_sizes.dart';
 
+import '../../../orders/data/models/order_model.dart';
 import '../controller/delivery_controller.dart';
 import '../widgets/customer_info_card.dart';
 import '../widgets/map_card.dart';
@@ -10,8 +11,9 @@ import '../widgets/cash_card.dart';
 import '../widgets/delivery_actions.dart';
 
 class ActiveDeliveryPage extends GetView<ActiveDeliveryController> {
-  const ActiveDeliveryPage({super.key});
+  ActiveDeliveryPage({super.key});
 
+  final OrderModel order = Get.arguments as OrderModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,21 +21,21 @@ class ActiveDeliveryPage extends GetView<ActiveDeliveryController> {
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.padding),
-        child: const Column(
+        child: Column(
           children: [
-            CustomerInfoCard(),
+            CustomerInfoCard(order: order),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-            MapCard(),
+            MapCard(order: order),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-            CashCard(),
+            CashCard(order: order),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
-            DeliveryActions(),
+            DeliveryActions(order: order),
           ],
         ),
       ),

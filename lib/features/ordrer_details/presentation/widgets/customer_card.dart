@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../orders/data/models/order_model.dart';
+
 class CustomerCard extends StatelessWidget {
-  const CustomerCard({super.key});
+  CustomerCard({super.key, required this.order});
+
+  final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +27,13 @@ class CustomerCard extends StatelessWidget {
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: const CircleAvatar(child: Icon(Icons.person)),
-              title: const Text("Ahmed Ali"),
-              subtitle: const Text("+963936539965"),
+              title: Text(order.customerName),
+              subtitle: Text(order.customerPhone),
               trailing: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.call),
+                onPressed: () {
+                  print(order.customerPhone);
+                },
+                icon: const Icon(Icons.call, color: Colors.green),
               ),
             ),
           ],

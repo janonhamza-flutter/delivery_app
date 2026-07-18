@@ -11,5 +11,5 @@ class MainController extends GetxController {
     currentIndex.value = index;
   }
 
-  final pages = const [HomePage(), OrdersPage(), ProfilePage()];
+  final pages = [HomePage(), OrdersPage(), ProfilePage()];
 }

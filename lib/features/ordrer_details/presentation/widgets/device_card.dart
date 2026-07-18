@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../orders/data/models/order_model.dart';
+
 class DeviceCard extends StatelessWidget {
-  const DeviceCard({super.key});
+  DeviceCard({super.key, required this.order});
+
+  final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
@@ -12,28 +16,28 @@ class DeviceCard extends StatelessWidget {
         padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              "Device",
+          children: [
+            const Text(
+              "Order Information",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
 
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
 
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.phone_android),
-              title: Text("Galaxy S25 Ultra"),
-              subtitle: Text("IMEI : 123456789012345"),
+              leading: const Icon(Icons.local_shipping),
+              title: Text(order.type),
+              subtitle: Text("Payment: ${order.paymentMethod}"),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
-            Text("Notes", style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text("Shop", style: TextStyle(fontWeight: FontWeight.bold)),
 
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
 
-            Text("Please call before arriving."),
+            Text(order.shopName),
           ],
         ),
       ),
