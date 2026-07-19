@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 
 import '../controller/splash_controller.dart';
@@ -27,7 +26,7 @@ class SplashPage extends StatelessWidget {
 
             end: Alignment.bottomCenter,
 
-            colors: [Color(0xff123A86), AppColors.primary],
+            colors: [Color(0xff0E317E), Color(0xff081E5A)],
           ),
         ),
 
@@ -35,35 +34,22 @@ class SplashPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(AppSizes.padding),
 
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: [
-                          const Spacer(),
+            child: Column(
+              children: [
+                const Spacer(),
 
-                          const SplashLogo(),
+                const SplashLogo(),
 
-                          const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-                          const SplashDelivery(),
+                const SplashDelivery(),
 
-                          const Spacer(),
+                const Spacer(),
 
-                          const SplashLoading(),
+                const SplashLoading(),
 
-                          const SizedBox(height: 25),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
+                const SizedBox(height: 25),
+              ],
             ),
           ),
         ),
