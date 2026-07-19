@@ -38,6 +38,17 @@ class OrdersRepository {
     );
   }
 
+  Future<Response> updateStatus({
+    required int orderId,
+    required String status,
+  }) async {
+    return await dioService.postData(
+      endpoint: "/delivery/requests/$orderId/status",
+      token: StorageService.getToken(),
+      data: {"status": status},
+    );
+  }
+
   Future<Response> confirmDelivery({
     required int orderId,
     String? confirmationCode,

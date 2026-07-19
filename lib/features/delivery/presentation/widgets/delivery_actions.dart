@@ -137,16 +137,27 @@ class DeliveryActions extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onPressed: controller.isLoading.value
+                  onPressed: controller.isActionLoading.value
                       ? null
-                      : () {
-                          Get.snackbar(
-                            "Arrived",
-                            "You have arrived at the destination.",
-                          );
+                      : () async {
+                          if (order.status == "accepted") {
+                            await controller.updateStatus(
+                              orderId: order.id,
+                              status: "on_the_way",
+                            );
+                          } else if (order.status == "on_the_way") {
+                            await controller.updateStatus(
+                              orderId: order.id,
+                              status: "arrived",
+                            );
+                          }
                         },
                   icon: const Icon(Icons.location_on),
-                  label: const Text("Arrived"),
+                  label: Text(
+                    order.status == "accepted"
+                        ? "I'm On The Way"
+                        : "I've Arrived",
+                  ),
                 ),
               ),
             ],

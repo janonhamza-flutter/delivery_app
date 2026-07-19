@@ -11,6 +11,27 @@ class ActiveDeliveryController extends GetxController {
   final OrdersRepository repository;
 
   final isLoading = false.obs;
+  final isActionLoading = false.obs;
+
+  Future<void> updateStatus({
+    required int orderId,
+    required String status,
+  }) async {
+    try {
+      isActionLoading.value = true;
+
+      final response = await repository.updateStatus(
+        orderId: orderId,
+        status: status,
+      );
+
+      AppSnackbar.success(response.data["message"]);
+    } catch (e) {
+      AppSnackbar.error(e.toString());
+    } finally {
+      isActionLoading.value = false;
+    }
+  }
 
   Future<void> confirmDelivery({
     required int orderId,
