@@ -7,6 +7,7 @@ import '../controller/login_controller.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/login_header.dart';
 import '../widgets/phone_text_field.dart';
+import '../widgets/terms.dart';
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({super.key});
@@ -17,33 +18,42 @@ class LoginPage extends GetView<LoginController> {
       backgroundColor: AppColors.background,
 
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSizes.padding),
+        child: Padding(
+          padding: const EdgeInsets.all(AppSizes.padding),
 
-            child: Form(
-              key: controller.formKey,
+          child: Form(
+            key: controller.formKey,
 
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
 
-                children: [
-                  const SizedBox(height: 70),
+              children: [
+                const SizedBox(height: 40),
 
-                  /// Logo + Welcome
-                  const LoginHeader(),
+                /// Logo + Welcome
+                const LoginHeader(),
 
-                  const SizedBox(height: 60),
+                const SizedBox(height: 45),
 
-                  /// Phone Field
-                  PhoneTextField(controller: controller.phoneController),
+                /// Phone Field
+                PhoneTextField(controller: controller.phoneController),
 
-                  const SizedBox(height: 35),
+                const SizedBox(height: 25),
 
-                  /// Continue Button
-                  AuthButton(onPressed: controller.sendOtp),
-                ],
-              ),
+                /// Continue Button
+                Obx(
+                  () => AuthButton(
+                    onPressed: controller.sendOtp,
+                    isLoading: controller.isLoading.value,
+                  ),
+                ),
+
+                const Spacer(),
+
+                const TermsWidget(),
+
+                const SizedBox(height: 20),
+              ],
             ),
           ),
         ),

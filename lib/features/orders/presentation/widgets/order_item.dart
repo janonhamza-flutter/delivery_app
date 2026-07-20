@@ -10,6 +10,48 @@ class OrderItem extends StatelessWidget {
 
   final OrderModel order;
   @override
+  Color getStatusColor() {
+    switch (order.status.toLowerCase()) {
+      case "pending":
+        return Colors.orange;
+
+      case "accepted":
+        return Colors.blue;
+
+      case "arrived":
+        return Colors.purple;
+
+      case "delivered":
+        return Colors.green;
+
+      case "cancelled":
+        return Colors.red;
+
+      default:
+        return Colors.grey;
+    }
+  }
+
+  Color getStatusBackground() {
+    return getStatusColor().withOpacity(.15);
+  }
+
+  IconData getTypeIcon() {
+    switch (order.type) {
+      case "device_pickup":
+        return Icons.phone_android;
+
+      case "accessory_delivery":
+        return Icons.headphones;
+
+      case "maintenance_delivery":
+        return Icons.build;
+
+      default:
+        return Icons.local_shipping;
+    }
+  }
+
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(18),
@@ -27,7 +69,7 @@ class OrderItem extends StatelessWidget {
               /// Header
               Row(
                 children: [
-                  const Icon(Icons.local_shipping, color: AppColors.primary),
+                  Icon(getTypeIcon(), color: AppColors.primary),
 
                   const SizedBox(width: 10),
 
@@ -47,10 +89,16 @@ class OrderItem extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.orange.shade100,
+                      color: getStatusBackground(),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Text(order.status),
+                    child: Text(
+                      order.status.toUpperCase(),
+                      style: TextStyle(
+                        color: getStatusColor(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),

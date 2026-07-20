@@ -23,6 +23,10 @@ class OtpPinField extends StatelessWidget {
 
       autoFocus: true,
 
+      enableActiveFill: true,
+
+      cursorColor: AppColors.primary,
+
       onChanged: (_) {},
 
       pinTheme: PinTheme(
@@ -30,9 +34,9 @@ class OtpPinField extends StatelessWidget {
 
         borderRadius: BorderRadius.circular(15),
 
-        fieldHeight: 60,
+        fieldHeight: 56,
 
-        fieldWidth: 60,
+        fieldWidth: 46,
 
         activeFillColor: Colors.white,
 
@@ -45,6 +49,8 @@ class OtpPinField extends StatelessWidget {
         selectedColor: AppColors.primary,
 
         inactiveColor: Colors.grey.shade400,
+
+        borderWidth: 1.4,
       ),
     );
   }
