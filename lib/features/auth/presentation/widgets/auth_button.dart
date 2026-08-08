@@ -4,10 +4,12 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class AuthButton extends StatelessWidget {
+  final String text;
   const AuthButton({
     super.key,
     required this.onPressed,
     this.isLoading = false,
+    required this.text,
   });
 
   final VoidCallback onPressed;
@@ -29,19 +31,26 @@ class AuthButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
         ),
         child: isLoading
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2.5,
-                ),
+            ? const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2.5,
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Text("Loading...", style: AppTextStyles.button),
+                ],
               )
             : Row(
                 children: [
                   const Spacer(),
 
-                  const Text("Send OTP", style: AppTextStyles.button),
+                   Text(text, style: AppTextStyles.button),
 
                   const Spacer(),
 

@@ -23,7 +23,7 @@ class WelcomeCard extends StatelessWidget {
 
         children: [
           Text(
-            "Good Morning 👋",
+            "Have a good day 👋",
 
             style: TextStyle(
               color: Colors.white,

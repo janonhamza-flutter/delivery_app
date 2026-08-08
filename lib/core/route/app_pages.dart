@@ -3,6 +3,8 @@ import 'package:delivery_app/features/auth/presentation/pages/login_page.dart';
 import 'package:delivery_app/features/delivery/bindings/delivery_binding.dart'
     show ActiveDeliveryBinding;
 import 'package:delivery_app/features/delivery/presentation/pages/delivery_page.dart';
+import 'package:delivery_app/features/history/bindings/history_binding.dart';
+import 'package:delivery_app/features/history/presentation/pages/history_page.dart';
 import 'package:delivery_app/features/home/presentation/pages/home_page.dart';
 import 'package:delivery_app/features/ordrer_details/bindings/order_details_binding.dart'
     show OrderDetailsBinding;
@@ -26,7 +28,6 @@ class AppPages {
       binding: SplashBinding(),
     ),
 
-    // سنضيف Login لاحقًا
     GetPage(
       name: AppRoutes.login,
       page: () => LoginPage(),
@@ -58,5 +59,13 @@ class AppPages {
       page: () => ActiveDeliveryPage(),
       binding: ActiveDeliveryBinding(),
     ),
+
+    GetPage(
+      name: AppRoutes.history,
+      page: () => const HistoryPage(),
+      binding: HistoryBinding(),
+    ),
+
+   
   ];
 }

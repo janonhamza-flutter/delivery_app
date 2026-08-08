@@ -39,7 +39,6 @@ class LoginController extends GetxController {
       print("Phone Sent: $phone");
       print("Before API");
 
-      await authRepository.sendOtp(phone: phone);
       final response = await authRepository.sendOtp(phone: phone);
       print(response.data);
 

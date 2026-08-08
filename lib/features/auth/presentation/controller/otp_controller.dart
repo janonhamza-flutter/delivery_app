@@ -83,7 +83,6 @@ class OtpController extends GetxController {
 }*/
 
 import 'package:delivery_app/core/services/error_handler.dart';
-import 'package:delivery_app/core/services/notification_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -169,14 +168,6 @@ class OtpController extends GetxController {
       final token = response.data["data"]["token"];
       StorageService.saveToken(token);
 
-      final fcmToken = await NotificationService.getDeviceToken();
-      if (fcmToken != null && fcmToken.isNotEmpty) {
-        try {
-          await authRepository.updateFcmToken(fcmToken: fcmToken);
-        } catch (e) {
-          print("FCM update failed: $e");
-        }
-      }
 
       Get.offAllNamed(AppRoutes.main);
     } on DioException catch (e) {

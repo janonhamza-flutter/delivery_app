@@ -1,41 +1,349 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/constants/app_sizes.dart';
-
+import '../../../../core/theme/app_colors.dart';
 import '../controller/orders_controller.dart';
 import '../widgets/order_item.dart';
 
 class OrdersPage extends GetView<OrdersController> {
-  OrdersPage({super.key});
+  const OrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Orders"), centerTitle: true),
+      backgroundColor: const Color(0xffF4F6FB),
+      body: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (_, __) => [_AppBar()],
+          body: Obx(() {
+            // ── Loading ───────────────────────────────────────────────
+            if (controller.isLoading.value) {
+              return _LoadingSkeleton();
+            }
 
-      body: Padding(
-        padding: const EdgeInsets.all(AppSizes.padding),
+            // ── Empty ─────────────────────────────────────────────────
+            if (controller.orders.isEmpty) {
+              return _EmptyState(onRefresh: controller.getOrders);
+            }
 
-        child: Obx(() {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
+            // ── List ──────────────────────────────────────────────────
+            return RefreshIndicator(
+              color: AppColors.primary,
+              onRefresh: controller.getOrders,
+              child: ListView.builder(
+                controller: controller.scrollController,
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 30),
+                physics: const AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics(),
+                ),
+                itemCount: controller.orders.length + 1,
+                itemBuilder: (context, index) {
+                  // ── Pagination footer ──────────────────────────────
+                  if (index == controller.orders.length) {
+                    return Obx(
+                      () => controller.isPaginating.value
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.primary,
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    );
+                  }
+                  return OrderItem(order: controller.orders[index]);
+                },
+              ),
+            );
+          }),
+        ),
+      ),
+    );
+  }
+}
 
-          if (controller.orders.isEmpty) {
-            return const Center(child: Text("No Orders"));
-          }
-
-          return RefreshIndicator(
-            onRefresh: controller.getOrders,
-            child: ListView.builder(
-              itemCount: controller.orders.length,
-              itemBuilder: (_, index) {
-                return OrderItem(order: controller.orders[index]);
-              },
+// ─────────────────────────────────────────────────────────────────────────────
+// Sliver AppBar
+// ─────────────────────────────────────────────────────────────────────────────
+class _AppBar extends GetView<OrdersController> {
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ── Header row ───────────────────────────────────────────
+            Row(
+              children: [
+                // Icon
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xff0B2C6A), Color(0xff1A4DB0)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(13),
+                  ),
+                  child: const Icon(
+                    Icons.inbox_rounded,
+                    color: Colors.white,
+                    size: 22,
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Pending Requests',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color(0xff1A1A2E),
+                        ),
+                      ),
+                      Obx(() {
+                        final count = controller.orders.length;
+                        return Text(
+                          count == 0
+                              ? 'No requests right now'
+                              : '$count ${count == 1 ? 'request' : 'requests'} waiting',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xff6B7280),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+                // Refresh button
+                GestureDetector(
+                  onTap: controller.getOrders,
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffF4F6FB),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.refresh_rounded,
+                      color: AppColors.primary,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          );
-        }),
+
+            const SizedBox(height: 14),
+
+            // ── Live indicator ───────────────────────────────────────
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.success.withValues(alpha: 0.08),
+                    AppColors.success.withValues(alpha: 0.04),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: AppColors.success.withValues(alpha: 0.25),
+                ),
+              ),
+              child: Row(
+                children: [
+                  _PulseDot(),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Listening for new requests…',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.success,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Animated pulse dot
+// ─────────────────────────────────────────────────────────────────────────────
+class _PulseDot extends StatefulWidget {
+  @override
+  State<_PulseDot> createState() => _PulseDotState();
+}
+
+class _PulseDotState extends State<_PulseDot>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _anim;
+  late final Animation<double> _scale;
+
+  @override
+  void initState() {
+    super.initState();
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+    _scale = Tween<double>(
+      begin: 0.6,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _anim, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _anim.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: _scale,
+      child: Container(
+        width: 9,
+        height: 9,
+        decoration: const BoxDecoration(
+          color: AppColors.success,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Empty state
+// ─────────────────────────────────────────────────────────────────────────────
+class _EmptyState extends StatelessWidget {
+  final VoidCallback onRefresh;
+  const _EmptyState({required this.onRefresh});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.07),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.check_circle_outline_rounded,
+                size: 56,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'All caught up!',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color(0xff1A1A2E),
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'No pending delivery requests right now.\nPull down to refresh.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13, color: Color(0xff6B7280)),
+            ),
+            const SizedBox(height: 28),
+            GestureDetector(
+              onTap: onRefresh,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 28,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.refresh_rounded, color: Colors.white, size: 18),
+                    SizedBox(width: 8),
+                    Text(
+                      'Refresh',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Loading skeleton
+// ─────────────────────────────────────────────────────────────────────────────
+class _LoadingSkeleton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 30),
+      itemCount: 4,
+      itemBuilder: (_, __) => Container(
+        margin: const EdgeInsets.only(bottom: 14),
+        height: 180,
+        decoration: BoxDecoration(
+          color: Colors.grey.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey.withValues(alpha: 0.2),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

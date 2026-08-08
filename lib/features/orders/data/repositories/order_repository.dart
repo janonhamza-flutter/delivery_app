@@ -10,11 +10,18 @@ class OrdersRepository {
 
   OrdersRepository(this.dioService);
 
-  // سنضيف API هنا لاحقًا
-  Future<Response> getOrders() async {
-    print("Orders Token = ${StorageService.getToken()}");
+  Future<Response> getOrders({int page = 1}) async {
     return await dioService.getData(
       endpoint: "/delivery/requests",
+      token: StorageService.getToken(),
+    );
+  }
+
+  /// GET /delivery/requests/{id}
+  /// Returns the delivery the worker owns (accepted/on_the_way/arrived).
+  Future<Response> getRequestDetails({required int id}) async {
+    return await dioService.getData(
+      endpoint: "/delivery/requests/$id",
       token: StorageService.getToken(),
     );
   }
@@ -55,23 +62,33 @@ class OrdersRepository {
     File? image,
   }) async {
     final token = StorageService.getToken();
-
     FormData formData = FormData();
-
     if (confirmationCode != null && confirmationCode.isNotEmpty) {
       formData.fields.add(MapEntry("confirmation_code", confirmationCode));
     }
-
     if (image != null) {
       formData.files.add(
         MapEntry("image", await MultipartFile.fromFile(image.path)),
       );
     }
-
     return await dioService.postFormData(
       endpoint: "/delivery/requests/$orderId/confirm",
       data: formData,
       token: token,
+    );
+  }
+
+  /// POST /delivery/requests/{id}/collect-cash
+  /// Records cash collection. Only valid for:
+  /// status=delivered, payment_method=cash_on_delivery, cash_collected=false.
+  Future<Response> collectCash({
+    required int orderId,
+    required double cashAmount,
+  }) async {
+    return await dioService.postData(
+      endpoint: "/delivery/requests/$orderId/collect-cash",
+      token: StorageService.getToken(),
+      data: {"cash_amount": cashAmount},
     );
   }
 }

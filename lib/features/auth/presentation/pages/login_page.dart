@@ -16,46 +16,50 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSizes.padding),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSizes.padding),
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Form(
+                  key: controller.formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 40),
 
-          child: Form(
-            key: controller.formKey,
+                      /// Logo + Welcome
+                      const LoginHeader(),
 
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+                      const SizedBox(height: 45),
 
-              children: [
-                const SizedBox(height: 40),
+                      /// Phone Field
+                      PhoneTextField(controller: controller.phoneController),
 
-                /// Logo + Welcome
-                const LoginHeader(),
+                      const SizedBox(height: 25),
 
-                const SizedBox(height: 45),
+                      /// Continue Button
+                      Obx(
+                        () => AuthButton(
+                          onPressed: controller.sendOtp,
+                          isLoading: controller.isLoading.value, text: 'Send phone',
+                        ),
+                      ),
 
-                /// Phone Field
-                PhoneTextField(controller: controller.phoneController),
-
-                const SizedBox(height: 25),
-
-                /// Continue Button
-                Obx(
-                  () => AuthButton(
-                    onPressed: controller.sendOtp,
-                    isLoading: controller.isLoading.value,
+                      const SizedBox(height: 24),
+                      const TermsWidget(),
+                      const SizedBox(height: 20),
+                    ],
                   ),
                 ),
-
-                const Spacer(),
-
-                const TermsWidget(),
-
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

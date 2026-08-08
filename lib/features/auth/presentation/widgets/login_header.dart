@@ -12,9 +12,7 @@ class LoginHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-<<<<<<< HEAD
-       // Image.asset(AppAssets.logo, width: 120),
-=======
+        Image.asset(AppAssets.logo, width: 120),
         RichText(
           text: TextSpan(
             children: [
@@ -39,8 +37,6 @@ class LoginHeader extends StatelessWidget {
             ],
           ),
         ),
->>>>>>> a4dc6e6658f7312c85d4581c105ab52e49f75857
-
         const SizedBox(height: 20),
 
         const Text("Welcome Back", style: AppTextStyles.pageTitle),
