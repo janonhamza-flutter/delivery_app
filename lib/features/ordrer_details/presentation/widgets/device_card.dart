@@ -26,11 +26,11 @@ class DeviceCard extends StatelessWidget {
   String get _typeLabel {
     switch (order.type) {
       case 'device_pickup':
-        return 'Device Pickup';
+        return 'home.typeDevicePickup'.tr;
       case 'accessory_delivery':
-        return 'Accessory Delivery';
+        return 'orderDetails.typeAccessoryDelivery'.tr;
       case 'maintenance_delivery':
-        return 'Maintenance Delivery';
+        return 'orderDetails.typeMaintenanceDelivery'.tr;
       default:
         return order.type.replaceAll('_', ' ').capitalizeFirst ?? order.type;
     }
@@ -74,9 +74,9 @@ class DeviceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Order Type',
-                        style: TextStyle(
+                      Text(
+                        'orderDetails.orderType'.tr,
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.grey,
                           fontWeight: FontWeight.w500,
@@ -125,9 +125,9 @@ class DeviceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Shop',
-                        style: TextStyle(
+                      Text(
+                        'profile.shop'.tr,
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.grey,
                           fontWeight: FontWeight.w500,
@@ -176,9 +176,9 @@ class DeviceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Payment Method',
-                        style: TextStyle(
+                      Text(
+                        'orderDetails.paymentMethod'.tr,
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.grey,
                           fontWeight: FontWeight.w500,
@@ -186,7 +186,7 @@ class DeviceCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        isCash ? 'Cash on Delivery' : 'Prepaid',
+                        isCash ? 'orders.cashOnDelivery'.tr : 'home.prepaid'.tr,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -225,9 +225,9 @@ class DeviceCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Cost',
-                            style: TextStyle(
+                          Text(
+                            'orderDetails.cost'.tr,
+                            style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.grey,
                               fontWeight: FontWeight.w500,
@@ -274,9 +274,9 @@ class DeviceCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Accessory Order Number',
-                            style: TextStyle(
+                          Text(
+                            'orderDetails.accessoryOrderNumber'.tr,
+                            style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.grey,
                               fontWeight: FontWeight.w500,
@@ -319,9 +319,9 @@ class DeviceCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'cost',
-                            style: TextStyle(
+                          Text(
+                            'orderDetails.cost'.tr,
+                            style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.grey,
                               fontWeight: FontWeight.w500,

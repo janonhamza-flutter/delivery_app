@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/route/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -51,17 +50,20 @@ class HomeHeader extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Text(
-                    "Have a good day",
-                    style: TextStyle(color: Color(0xff6B7280), fontSize: 13),
+                  Text(
+                    'home.haveAGoodDay'.tr,
+                    style: const TextStyle(
+                      color: Color(0xff6B7280),
+                      fontSize: 13,
+                    ),
                   ),
                   const Text("☀️", style: TextStyle(fontSize: 13)),
                 ],
               ),
               const SizedBox(height: 2),
-              const Text(
-                "Delivery Driver",
-                style: TextStyle(
+              Text(
+                'home.deliveryDriver'.tr,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 17,
                   color: Color(0xff1A1A2E),
@@ -94,9 +96,9 @@ class HomeHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              const Text(
-                "Online",
-                style: TextStyle(
+              Text(
+                'home.online'.tr,
+                style: const TextStyle(
                   color: AppColors.success,
                   fontWeight: FontWeight.w600,
                   fontSize: 12,

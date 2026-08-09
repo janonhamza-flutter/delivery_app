@@ -47,7 +47,8 @@ class LoginPage extends GetView<LoginController> {
                       Obx(
                         () => AuthButton(
                           onPressed: controller.sendOtp,
-                          isLoading: controller.isLoading.value, text: 'Send phone',
+                          isLoading: controller.isLoading.value,
+                          text: 'auth.sendPhone'.tr,
                         ),
                       ),
 

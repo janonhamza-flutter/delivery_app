@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/constants/app_sizes.dart';
@@ -83,7 +84,7 @@ class AddressCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Open in Google Maps',
+                      'orderDetails.openInMaps'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

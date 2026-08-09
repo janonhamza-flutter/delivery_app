@@ -22,13 +22,13 @@ class CustomBottomNavBar extends GetView<MainController> {
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
         items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.home_rounded),
-            label: 'Home',
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.home_rounded),
+            label: 'nav.home'.tr,
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.inbox_rounded),
-            label: 'Requests',
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.inbox_rounded),
+            label: 'nav.requests'.tr,
           ),
           BottomNavigationBarItem(
             icon: Stack(
@@ -50,11 +50,11 @@ class CustomBottomNavBar extends GetView<MainController> {
                   ),
               ],
             ),
-            label: 'Active',
+            label: 'profile.active'.tr,
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.person_rounded),
-            label: 'Profile',
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person_rounded),
+            label: 'nav.profile'.tr,
           ),
         ],
       );

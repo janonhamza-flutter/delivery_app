@@ -35,9 +35,9 @@ class OtpPage extends GetView<OtpController> {
                   children: [
                     const SizedBox(height: 40),
 
-                    const Text(
-                      "Verify OTP",
-                      style: TextStyle(
+                    Text(
+                      'auth.verifyOtp'.tr,
+                      style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
@@ -46,7 +46,7 @@ class OtpPage extends GetView<OtpController> {
                     const SizedBox(height: 15),
 
                     Text(
-                      "Enter the verification code sent to",
+                      'auth.enterCodeSentTo'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey.shade600,
@@ -72,7 +72,10 @@ class OtpPage extends GetView<OtpController> {
 
                     const Center(child: ResendCode()),
                     const SizedBox(height: 24),
-                    AuthButton(onPressed: controller.verifyOtp, text: 'Verify OTP'),
+                    AuthButton(
+                      onPressed: controller.verifyOtp,
+                      text: 'auth.verifyOtp'.tr,
+                    ),
                     const SizedBox(height: 25),
                   ],
                 ),

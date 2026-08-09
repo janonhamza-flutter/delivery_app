@@ -12,7 +12,7 @@ class SplashController extends GetxController {
     super.onInit();
 
     // Start both the fixed splash duration and app initialization in parallel.
-    final loadingDelay = Future.delayed(const Duration(seconds: 7));
+    final loadingDelay = Future.delayed(const Duration(seconds: 5));
 
     final initFuture = _initializeApp();
 

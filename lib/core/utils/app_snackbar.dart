@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class AppSnackbar {
   static void success(String message) {
     Get.snackbar(
-      "Success",
+      'common.success'.tr,
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.green,
@@ -18,7 +18,7 @@ class AppSnackbar {
 
   static void error(String message) {
     Get.snackbar(
-      "Error",
+      'common.error'.tr,
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.red,
@@ -32,7 +32,7 @@ class AppSnackbar {
 
   static void info(String message) {
     Get.snackbar(
-      "Info",
+      'common.info'.tr,
       message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.blue,

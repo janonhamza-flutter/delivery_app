@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/services/language_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/models/profile_model.dart';
 import '../controller/profile_controller.dart';
@@ -38,65 +39,74 @@ class ProfilePage extends GetView<ProfileController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _SectionTitle(title: 'Contact Info'),
+                    _SectionTitle(title: 'profile.contactInfo'.tr),
                     const SizedBox(height: 12),
                     _InfoCard(
                       children: [
                         _InfoRow(
                           icon: Icons.phone_rounded,
                           iconColor: AppColors.success,
-                          label: 'Phone',
+                          label: 'profile.phone'.tr,
                           value: profile.phone,
                         ),
                         _Divider(),
                         _InfoRow(
                           icon: Icons.email_rounded,
                           iconColor: AppColors.info,
-                          label: 'Email',
+                          label: 'profile.email'.tr,
                           value: profile.email,
                         ),
                       ],
                     ),
 
                     const SizedBox(height: 20),
-                    _SectionTitle(title: 'Work Info'),
+                    _SectionTitle(title: 'profile.workInfo'.tr),
                     const SizedBox(height: 12),
                     _InfoCard(
                       children: [
                         _InfoRow(
                           icon: Icons.work_rounded,
                           iconColor: AppColors.primary,
-                          label: 'Specialization',
+                          label: 'profile.specialization'.tr,
                           value: profile.specialization,
                         ),
                         _Divider(),
                         _InfoRow(
                           icon: Icons.timeline_rounded,
                           iconColor: AppColors.warning,
-                          label: 'Experience',
+                          label: 'profile.experience'.tr,
                           value: profile.experience,
                         ),
                       ],
                     ),
 
                     const SizedBox(height: 20),
-                    _SectionTitle(title: 'Shop'),
+                    _SectionTitle(title: 'profile.shop'.tr),
                     const SizedBox(height: 12),
                     _InfoCard(
                       children: [
                         _InfoRow(
                           icon: Icons.store_rounded,
                           iconColor: const Color(0xff8B5CF6),
-                          label: 'Shop Name',
+                          label: 'profile.shopName'.tr,
                           value: profile.shopName,
                         ),
                         _Divider(),
                         _InfoRow(
                           icon: Icons.location_on_rounded,
                           iconColor: AppColors.error,
-                          label: 'Address',
+                          label: 'profile.address'.tr,
                           value: profile.shopAddress,
                         ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+                    _SectionTitle(title: 'profile.settings'.tr),
+                    const SizedBox(height: 12),
+                    _InfoCard(
+                      children: [
+                        _LanguageRow(),
                       ],
                     ),
 
@@ -105,10 +115,10 @@ class ProfilePage extends GetView<ProfileController> {
                     // ── Logout ────────────────────────────────────────
                     _LogoutButton(
                       onTap: () => Get.defaultDialog(
-                        title: 'Logout',
-                        middleText: 'Are you sure you want to logout?',
-                        textConfirm: 'Yes, Logout',
-                        textCancel: 'Cancel',
+                        title: 'profile.logout'.tr,
+                        middleText: 'profile.logoutConfirm'.tr,
+                        textConfirm: 'profile.logoutYes'.tr,
+                        textCancel: 'common.cancel'.tr,
                         confirmTextColor: Colors.white,
                         buttonColor: AppColors.error,
                         onConfirm: () {
@@ -271,7 +281,9 @@ class _ProfileHero extends StatelessWidget {
                     ),
                     const SizedBox(width: 7),
                     Text(
-                      profile.isActive ? 'Active' : 'Inactive',
+                      profile.isActive
+                          ? 'profile.active'.tr
+                          : 'profile.inactive'.tr,
                       style: TextStyle(
                         color: profile.isActive
                             ? AppColors.success
@@ -424,6 +436,146 @@ class _Divider extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Language row (Settings section)
+// ─────────────────────────────────────────────────────────────────────────────
+class _LanguageRow extends StatelessWidget {
+  static const Color _iconColor = Color(0xff0EA5E9);
+
+  // Language names are shown in their own script regardless of the app's
+  // current locale, so they are intentionally not passed through `.tr`.
+  static String _displayName(Locale? locale) =>
+      locale?.languageCode == LanguageService.arabic.languageCode
+      ? 'العربية'
+      : 'English';
+
+  void _showLanguageDialog() {
+    Get.defaultDialog(
+      title: 'language.select'.tr,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _LanguageOption(
+            label: 'English',
+            selected: Get.locale?.languageCode == LanguageService.english.languageCode,
+            onTap: () {
+              LanguageService.changeLanguage(LanguageService.english);
+              Get.back();
+            },
+          ),
+          const SizedBox(height: 8),
+          _LanguageOption(
+            label: 'العربية',
+            selected: Get.locale?.languageCode == LanguageService.arabic.languageCode,
+            onTap: () {
+              LanguageService.changeLanguage(LanguageService.arabic);
+              Get.back();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _showLanguageDialog,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: _iconColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.language_rounded,
+                color: _iconColor,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                'language.title'.tr,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xff1A1A2E),
+                ),
+              ),
+            ),
+            Text(
+              _displayName(Get.locale),
+              style: const TextStyle(fontSize: 13, color: Color(0xff9E9E9E)),
+            ),
+            const SizedBox(width: 6),
+            Icon(
+              Directionality.of(context) == TextDirection.rtl
+                  ? Icons.chevron_left_rounded
+                  : Icons.chevron_right_rounded,
+              color: const Color(0xff9E9E9E),
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageOption extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _LanguageOption({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: selected
+              ? AppColors.primary.withValues(alpha: 0.08)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: selected ? AppColors.primary : const Color(0xffE5E7EB),
+          ),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: selected ? AppColors.primary : const Color(0xff1A1A2E),
+                ),
+              ),
+            ),
+            if (selected)
+              const Icon(Icons.check_circle_rounded, color: AppColors.primary, size: 18),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Logout button
 // ─────────────────────────────────────────────────────────────────────────────
 class _LogoutButton extends StatelessWidget {
@@ -442,14 +594,14 @@ class _LogoutButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
         ),
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.logout_rounded, color: AppColors.error, size: 20),
-            SizedBox(width: 10),
+            const Icon(Icons.logout_rounded, color: AppColors.error, size: 20),
+            const SizedBox(width: 10),
             Text(
-              'Logout',
-              style: TextStyle(
+              'profile.logout'.tr,
+              style: const TextStyle(
                 color: AppColors.error,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
@@ -477,9 +629,9 @@ class _ErrorState extends StatelessWidget {
         children: [
           const Icon(Icons.person_off_rounded, size: 60, color: AppColors.grey),
           const SizedBox(height: 16),
-          const Text(
-            'Could not load profile',
-            style: TextStyle(fontSize: 16, color: AppColors.darkGrey),
+          Text(
+            'profile.loadError'.tr,
+            style: const TextStyle(fontSize: 16, color: AppColors.darkGrey),
           ),
           const SizedBox(height: 20),
           GestureDetector(
@@ -490,9 +642,9 @@ class _ErrorState extends StatelessWidget {
                 color: AppColors.primary,
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: const Text(
-                'Retry',
-                style: TextStyle(
+              child: Text(
+                'common.retry'.tr,
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),

@@ -95,24 +95,28 @@ class HistoryPage extends GetView<HistoryController> {
       backgroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
-      leading: GestureDetector(
-        onTap: () => Get.back(),
-        child: Container(
-          margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xffF4F6FB),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: AppColors.primary,
-            size: 18,
+      leading: Builder(
+        builder: (context) => GestureDetector(
+          onTap: () => Get.back(),
+          child: Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xffF4F6FB),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              Directionality.of(context) == TextDirection.rtl
+                  ? Icons.arrow_forward_ios_rounded
+                  : Icons.arrow_back_ios_new_rounded,
+              color: AppColors.primary,
+              size: 18,
+            ),
           ),
         ),
       ),
-      title: const Text(
-        'Delivery History',
-        style: TextStyle(
+      title: Text(
+        'home.deliveryHistory'.tr,
+        style: const TextStyle(
           color: Color(0xff1A1A2E),
           fontWeight: FontWeight.bold,
           fontSize: 17,
@@ -122,7 +126,7 @@ class HistoryPage extends GetView<HistoryController> {
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.filter_list_rounded, color: AppColors.primary),
-          tooltip: 'Filter',
+          tooltip: 'history.filter'.tr,
         ),
       ],
     );
@@ -170,20 +174,20 @@ class _SummaryHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _StatItem(
-                label: 'Total',
+                label: 'history.total'.tr,
                 value: '$total',
                 icon: Icons.receipt_long_rounded,
               ),
               _Divider(),
               _StatItem(
-                label: 'Delivered',
+                label: 'status.delivered'.tr,
                 value: '$delivered',
                 icon: Icons.check_circle_rounded,
                 valueColor: AppColors.success,
               ),
               _Divider(),
               _StatItem(
-                label: 'Cancelled',
+                label: 'status.cancelled'.tr,
                 value: '$cancelled',
                 icon: Icons.cancel_rounded,
                 valueColor: AppColors.error,
@@ -198,9 +202,12 @@ class _SummaryHeader extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Success Rate',
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
+                  Text(
+                    'history.successRate'.tr,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                    ),
                   ),
                   Text(
                     '${(rate * 100).toStringAsFixed(0)}%',
@@ -304,27 +311,27 @@ class _EmptyState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'No Delivery History Yet',
-              style: TextStyle(
+            Text(
+              'history.emptyTitle'.tr,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Color(0xff1A1A2E),
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Your completed deliveries will appear here.',
+            Text(
+              'history.emptySubtitle'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: Color(0xff6B7280)),
+              style: const TextStyle(fontSize: 13, color: Color(0xff6B7280)),
             ),
             const SizedBox(height: 24),
             TextButton.icon(
               onPressed: onRefresh,
               icon: const Icon(Icons.refresh_rounded, color: AppColors.primary),
-              label: const Text(
-                'Refresh',
-                style: TextStyle(
+              label: Text(
+                'history.refresh'.tr,
+                style: const TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w600,
                 ),

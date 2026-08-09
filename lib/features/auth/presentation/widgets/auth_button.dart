@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -31,10 +32,10 @@ class AuthButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
         ),
         child: isLoading
-            ? const Row(
+            ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
@@ -42,8 +43,8 @@ class AuthButton extends StatelessWidget {
                       strokeWidth: 2.5,
                     ),
                   ),
-                  SizedBox(width: 12),
-                  Text("Loading...", style: AppTextStyles.button),
+                  const SizedBox(width: 12),
+                  Text('common.loading'.tr, style: AppTextStyles.button),
                 ],
               )
             : Row(

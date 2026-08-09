@@ -65,21 +65,21 @@ class ActionButtons extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'تأكيد قبول الطلب',
-                            style: TextStyle(
+                            'orderDetails.confirmAcceptTitle'.tr,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: AppColors.black,
                             ),
                           ),
-                          SizedBox(height: 2),
+                          const SizedBox(height: 2),
                           Text(
-                            'حدد الوقت المتوقع للوصول',
-                            style: TextStyle(
+                            'orderDetails.selectEta'.tr,
+                            style: const TextStyle(
                               fontSize: 13,
                               color: AppColors.grey,
                             ),
@@ -97,9 +97,7 @@ class ActionButtons extends StatelessWidget {
                     runSpacing: 10,
                     children: etaOptions.map((minutes) {
                       final isSelected = selectedMinutes == minutes;
-                      final label = minutes < 60
-                          ? '$minutes دقيقة'
-                          : '${minutes ~/ 60} ساعة${minutes % 60 != 0 ? ' و${minutes % 60} د' : ''}';
+                      final label = _formatEtaLabel(minutes);
 
                       return GestureDetector(
                         onTap: () => setState(() => selectedMinutes = minutes),
@@ -163,7 +161,9 @@ class ActionButtons extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'الوصول المتوقع: ${DateFormat('hh:mm a').format(eta)}',
+                              'orderDetails.expectedArrival'.trArgs([
+                                DateFormat('hh:mm a').format(eta),
+                              ]),
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: AppColors.secondary,
@@ -218,14 +218,17 @@ class ActionButtons extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Row(
+                            : Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.check_circle_rounded, size: 20),
-                                  SizedBox(width: 8),
+                                  const Icon(
+                                    Icons.check_circle_rounded,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
                                   Text(
-                                    'تأكيد القبول',
-                                    style: TextStyle(
+                                    'orderDetails.confirmAccept'.tr,
+                                    style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -242,6 +245,29 @@ class ActionButtons extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _formatEtaLabel(int minutes) {
+    if (minutes < 60) {
+      return 'orderDetails.etaMinutesSingular'.trPlural(
+        'orderDetails.etaMinutesPlural',
+        minutes,
+        ['$minutes'],
+      );
+    }
+    final hours = minutes ~/ 60;
+    final remainder = minutes % 60;
+    if (remainder == 0) {
+      return 'orderDetails.etaHoursSingular'.trPlural(
+        'orderDetails.etaHoursPlural',
+        hours,
+        ['$hours'],
+      );
+    }
+    return 'orderDetails.etaHoursWithMinutes'.trArgs([
+      '$hours',
+      '$remainder',
+    ]);
   }
 
   bool _canAcceptOrder() {
@@ -285,14 +311,14 @@ class ActionButtons extends StatelessWidget {
                     color: Colors.white,
                   ),
                 )
-              : const Row(
+              : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.check_circle_rounded, size: 20),
-                    SizedBox(width: 8),
+                    const Icon(Icons.check_circle_rounded, size: 20),
+                    const SizedBox(width: 8),
                     Text(
-                      'Accept Order',
-                      style: TextStyle(
+                      'orderDetails.acceptOrder'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

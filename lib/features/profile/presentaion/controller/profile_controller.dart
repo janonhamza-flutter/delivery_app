@@ -45,7 +45,7 @@ class ProfileController extends GetxController {
 
       Get.offAllNamed(AppRoutes.login);
     } catch (e) {
-      Get.snackbar("Error", "Logout failed");
+      Get.snackbar('common.error'.tr, 'profile.logoutFailed'.tr);
     }
   }
 }

@@ -70,21 +70,24 @@ class DeliveryActions extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Confirm Delivery',
-                        style: TextStyle(
+                        'deliveryActions.confirmDelivery'.tr,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: AppColors.black,
                         ),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
                       Text(
-                        'Enter confirmation code',
-                        style: TextStyle(fontSize: 13, color: AppColors.grey),
+                        'deliveryActions.enterConfirmationCode'.tr,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -94,9 +97,9 @@ class DeliveryActions extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Confirmation code field
-              const Text(
-                'Confirmation Code',
-                style: TextStyle(
+              Text(
+                'deliveryActions.confirmationCodeLabel'.tr,
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppColors.darkGrey,
@@ -109,7 +112,7 @@ class DeliveryActions extends StatelessWidget {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 autofocus: false,
                 decoration: InputDecoration(
-                  hintText: 'e.g. CONF-9988',
+                  hintText: 'deliveryActions.confirmationCodeHint'.tr,
                   prefixIcon: const Icon(
                     Icons.password_rounded,
                     color: AppColors.primary,
@@ -160,14 +163,17 @@ class DeliveryActions extends StatelessWidget {
                               color: Colors.white,
                             ),
                           )
-                        : const Row(
+                        : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.check_circle_rounded, size: 20),
-                              SizedBox(width: 8),
+                              const Icon(
+                                Icons.check_circle_rounded,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
                               Text(
-                                'Confirm Delivery',
-                                style: TextStyle(
+                                'deliveryActions.confirmDelivery'.tr,
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -226,19 +232,19 @@ class DeliveryActions extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'إلغاء قبول الطلب',
-              style: TextStyle(
+            Text(
+              'deliveryActions.cancelAcceptTitle'.tr,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: AppColors.black,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'هل أنت متأكد؟ سيعود الطلب إلى قائمة الانتظار\nويمكن لعامل آخر قبوله.',
+            Text(
+              'deliveryActions.cancelAcceptSubtitle'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 color: AppColors.darkGrey,
                 height: 1.5,
@@ -262,9 +268,9 @@ class DeliveryActions extends StatelessWidget {
                         ),
                       ),
                       onPressed: () => Get.back(),
-                      child: const Text(
-                        'إلغاء',
-                        style: TextStyle(
+                      child: Text(
+                        'common.cancel'.tr,
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
@@ -303,9 +309,9 @@ class DeliveryActions extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text(
-                                'تأكيد الإلغاء',
-                                style: TextStyle(
+                            : Text(
+                                'deliveryActions.confirmCancellation'.tr,
+                                style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -382,8 +388,8 @@ class DeliveryActions extends StatelessWidget {
                         : const Icon(Icons.navigation_rounded, size: 18),
                     label: Text(
                       currentStatus == 'accepted'
-                          ? "I'm On The Way"
-                          : "I've Arrived",
+                          ? 'deliveryActions.onMyWay'.tr
+                          : 'deliveryActions.arrived'.tr,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -396,7 +402,7 @@ class DeliveryActions extends StatelessWidget {
 
           // ── Complete Delivery — enabled only when arrived ─────────────────
           Tooltip(
-            message: canComplete ? '' : 'Available after you arrive',
+            message: canComplete ? '' : 'deliveryActions.availableAfterArrive'.tr,
             child: SizedBox(
               width: double.infinity,
               height: AppSizes.buttonHeight,
@@ -423,9 +429,9 @@ class DeliveryActions extends StatelessWidget {
                         children: [
                           const Icon(Icons.verified_rounded, size: 20),
                           const SizedBox(width: 8),
-                          const Text(
-                            'Complete Delivery',
-                            style: TextStyle(
+                          Text(
+                            'deliveryActions.completeDelivery'.tr,
+                            style: const TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
                             ),
@@ -448,9 +454,9 @@ class DeliveryActions extends StatelessWidget {
           // Hint text when locked
           if (!canComplete) ...[
             const SizedBox(height: 6),
-            const Text(
-              'Mark yourself as arrived to unlock',
-              style: TextStyle(fontSize: 12, color: AppColors.grey),
+            Text(
+              'deliveryActions.markArrivedToUnlock'.tr,
+              style: const TextStyle(fontSize: 12, color: AppColors.grey),
               textAlign: TextAlign.center,
             ),
           ],

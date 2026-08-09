@@ -27,11 +27,11 @@ class OrderItem extends StatelessWidget {
   String get _typeLabel {
     switch (order.type) {
       case 'device_pickup':
-        return 'Device Pickup';
+        return 'home.typeDevicePickup'.tr;
       case 'accessory_delivery':
-        return 'Accessory';
+        return 'home.typeAccessory'.tr;
       case 'maintenance_return':
-        return 'Maint. Return';
+        return 'orders.typeMaintReturn'.tr;
       default:
         return order.type.replaceAll('_', ' ');
     }
@@ -55,8 +55,12 @@ class OrderItem extends StatelessWidget {
       final dt = DateTime.parse(iso).toLocal();
       final now = DateTime.now();
       final diff = now.difference(dt);
-      if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-      if (diff.inHours < 24) return '${diff.inHours}h ago';
+      if (diff.inMinutes < 60) {
+        return 'orders.minutesAgo'.trArgs(['${diff.inMinutes}']);
+      }
+      if (diff.inHours < 24) {
+        return 'orders.hoursAgo'.trArgs(['${diff.inHours}']);
+      }
       final h = dt.hour.toString().padLeft(2, '0');
       final m = dt.minute.toString().padLeft(2, '0');
       return '$h:$m';
@@ -124,7 +128,9 @@ class OrderItem extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  'Request #${order.id}',
+                                  'orders.requestNumber'.trArgs([
+                                    '${order.id}',
+                                  ]),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
@@ -349,8 +355,8 @@ class OrderItem extends StatelessWidget {
                             const SizedBox(width: 5),
                             Text(
                               order.paymentMethod == 'cash_on_delivery'
-                                  ? 'Cash on Delivery'
-                                  : 'Prepaid',
+                                  ? 'orders.cashOnDelivery'.tr
+                                  : 'home.prepaid'.tr,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -375,19 +381,21 @@ class OrderItem extends StatelessWidget {
                           color: AppColors.primary,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
                             Text(
-                              'View',
-                              style: TextStyle(
+                              'orders.view'.tr,
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            SizedBox(width: 4),
+                            const SizedBox(width: 4),
                             Icon(
-                              Icons.arrow_forward_rounded,
+                              Directionality.of(context) == TextDirection.rtl
+                                  ? Icons.arrow_back_rounded
+                                  : Icons.arrow_forward_rounded,
                               color: Colors.white,
                               size: 13,
                             ),

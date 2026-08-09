@@ -38,7 +38,7 @@ class TodayStatsSection extends GetView<HomeController> {
                   icon: Icons.local_shipping_rounded,
                   iconColor: AppColors.info,
                   iconBg: AppColors.info.withValues(alpha: 0.12),
-                  label: "Deliveries",
+                  label: 'home.deliveriesLabel'.tr,
                   value: '$totalDeliveries',
                 ),
               ),
@@ -48,7 +48,7 @@ class TodayStatsSection extends GetView<HomeController> {
                   icon: Icons.check_circle_rounded,
                   iconColor: AppColors.success,
                   iconBg: AppColors.success.withValues(alpha: 0.12),
-                  label: "Completed",
+                  label: 'home.completed'.tr,
                   value: '$completed',
                 ),
               ),
@@ -58,7 +58,7 @@ class TodayStatsSection extends GetView<HomeController> {
                   icon: Icons.payments_rounded,
                   iconColor: AppColors.warning,
                   iconBg: AppColors.warning.withValues(alpha: 0.12),
-                  label: "Cash",
+                  label: 'home.cash'.tr,
                   value: _formatCash(totalCash),
                 ),
               ),
@@ -170,9 +170,9 @@ class _EarningsCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Text(
-                    "Today's Earnings",
-                    style: TextStyle(
+                  Text(
+                    'home.todaysEarnings'.tr,
+                    style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -242,17 +242,17 @@ class _EarningsCard extends StatelessWidget {
                           color: AppColors.success.withValues(alpha: 0.5),
                         ),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.trending_up_rounded,
                             color: AppColors.success,
                             size: 14,
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
-                            "Active",
-                            style: TextStyle(
+                            'profile.active'.tr,
+                            style: const TextStyle(
                               color: AppColors.success,
                               fontSize: 12,
                               fontWeight: FontWeight.w700,

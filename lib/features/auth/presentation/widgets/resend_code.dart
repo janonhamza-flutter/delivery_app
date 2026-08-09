@@ -11,14 +11,14 @@ class ResendCode extends GetView<OtpController> {
     return Obx(() {
       if (controller.seconds.value > 0) {
         return Text(
-          "Resend code in ${controller.seconds.value}s",
+          'auth.resendCodeIn'.trArgs(['${controller.seconds.value}']),
           style: const TextStyle(color: Colors.grey),
         );
       }
 
       return TextButton(
         onPressed: controller.resendCode,
-        child: const Text("Resend Code"),
+        child: Text('auth.resendCode'.tr),
       );
     });
   }

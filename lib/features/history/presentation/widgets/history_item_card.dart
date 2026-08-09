@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../data/models/history_model.dart';
@@ -19,11 +20,11 @@ class HistoryItemCard extends StatelessWidget {
   String get _typeLabel {
     switch (item.type) {
       case 'device_pickup':
-        return 'Device Pickup';
+        return 'home.typeDevicePickup'.tr;
       case 'accessory_delivery':
-        return 'Accessory';
+        return 'home.typeAccessory'.tr;
       case 'maintenance_return':
-        return 'Maintenance Return';
+        return 'history.typeMaintenanceReturn'.tr;
       default:
         return _capitalize(item.type.replaceAll('_', ' '));
     }
@@ -35,23 +36,23 @@ class HistoryItemCard extends StatelessWidget {
   String _formatDate(String iso) {
     try {
       final dt = DateTime.parse(iso).toLocal();
-      final months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
+      final monthKeys = [
+        'date.jan',
+        'date.feb',
+        'date.mar',
+        'date.apr',
+        'date.may',
+        'date.jun',
+        'date.jul',
+        'date.aug',
+        'date.sep',
+        'date.oct',
+        'date.nov',
+        'date.dec',
       ];
       final h = dt.hour.toString().padLeft(2, '0');
       final m = dt.minute.toString().padLeft(2, '0');
-      return '${dt.day} ${months[dt.month - 1]}, $h:$m';
+      return '${dt.day} ${monthKeys[dt.month - 1].tr}, $h:$m';
     } catch (_) {
       return iso;
     }

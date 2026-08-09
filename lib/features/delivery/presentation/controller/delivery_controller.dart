@@ -111,7 +111,7 @@ class ActiveDeliveryController extends GetxController {
     final hasImage = image != null;
 
     if (!hasCode && !hasImage) {
-      AppSnackbar.error('Either a confirmation code or a photo is required.');
+      AppSnackbar.error('deliveryActions.confirmationRequired'.tr);
       return;
     }
 
@@ -241,7 +241,7 @@ class ActiveDeliveryController extends GetxController {
     required double? longitude,
   }) async {
     if (latitude == null || longitude == null) {
-      AppSnackbar.error("No location available for this order.");
+      AppSnackbar.error('deliveryActions.noLocationAvailable'.tr);
       return;
     }
     final Uri uri = Uri.parse(

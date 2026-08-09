@@ -58,11 +58,11 @@ class _OrderCard extends StatelessWidget {
   String get _typeLabel {
     switch (item.type) {
       case 'device_pickup':
-        return 'Device Pickup';
+        return 'home.typeDevicePickup'.tr;
       case 'accessory_delivery':
-        return 'Accessory';
+        return 'home.typeAccessory'.tr;
       case 'maintenance_return':
-        return 'Return';
+        return 'home.typeReturn'.tr;
       default:
         return item.type.replaceAll('_', ' ');
     }
@@ -104,7 +104,7 @@ class _OrderCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Order #${item.id}',
+                'home.orderNumber'.trArgs(['${item.id}']),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
@@ -119,16 +119,16 @@ class _OrderCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
-                  children: const [
-                    Icon(
+                  children: [
+                    const Icon(
                       Icons.check_circle_rounded,
                       color: AppColors.success,
                       size: 11,
                     ),
-                    SizedBox(width: 3),
+                    const SizedBox(width: 3),
                     Text(
-                      'Delivered',
-                      style: TextStyle(
+                      'status.delivered'.tr,
+                      style: const TextStyle(
                         color: AppColors.success,
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
@@ -328,22 +328,22 @@ class _EmptyDeliveries extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'No deliveries today yet',
-                  style: TextStyle(
+                  'home.noDeliveriesTitle'.tr,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                     color: Color(0xff1A1A2E),
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'Completed deliveries will appear here.',
-                  style: TextStyle(fontSize: 12, color: Color(0xff9E9E9E)),
+                  'home.noDeliveriesSubtitle'.tr,
+                  style: const TextStyle(fontSize: 12, color: Color(0xff9E9E9E)),
                 ),
               ],
             ),

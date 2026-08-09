@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:delivery_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
@@ -15,10 +16,10 @@ class SplashLoading extends StatefulWidget {
 }
 
 class _SplashLoadingState extends State<SplashLoading> {
-  static const _messages = [
-    'Preparing your delivery experience',
-    'Setting up real-time tracking',
-    'Almost ready',
+  static const _messageKeys = [
+    'splash.msgPreparing',
+    'splash.msgRealtimeTracking',
+    'splash.msgAlmostReady',
   ];
 
   int _index = 0;
@@ -29,7 +30,7 @@ class _SplashLoadingState extends State<SplashLoading> {
     super.initState();
     _timer = Timer.periodic(const Duration(milliseconds: 1400), (_) {
       if (!mounted) return;
-      setState(() => _index = (_index + 1) % _messages.length);
+      setState(() => _index = (_index + 1) % _messageKeys.length);
     });
   }
 
@@ -45,7 +46,7 @@ class _SplashLoadingState extends State<SplashLoading> {
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 350),
         child: Text(
-          _messages[_index],
+          _messageKeys[_index].tr,
           key: ValueKey(_index),
           textAlign: TextAlign.center,
           style: GoogleFonts.montserrat(

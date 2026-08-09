@@ -54,13 +54,20 @@ class DeliveryHistorySection extends GetView<HistoryController> {
                 ),
               ],
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.history_rounded, color: AppColors.primary, size: 28),
-                SizedBox(width: 14),
+                const Icon(
+                  Icons.history_rounded,
+                  color: AppColors.primary,
+                  size: 28,
+                ),
+                const SizedBox(width: 14),
                 Text(
-                  'No delivery history yet.',
-                  style: TextStyle(color: Color(0xff6B7280), fontSize: 13),
+                  'home.noHistoryYet'.tr,
+                  style: const TextStyle(
+                    color: Color(0xff6B7280),
+                    fontSize: 13,
+                  ),
                 ),
               ],
             ),
@@ -91,20 +98,22 @@ class DeliveryHistorySection extends GetView<HistoryController> {
                     color: AppColors.primary.withValues(alpha: 0.3),
                   ),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'View All History',
-                      style: TextStyle(
+                      'home.viewAllHistory'.tr,
+                      style: const TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
                       ),
                     ),
-                    SizedBox(width: 6),
+                    const SizedBox(width: 6),
                     Icon(
-                      Icons.arrow_forward_rounded,
+                      Directionality.of(context) == TextDirection.rtl
+                          ? Icons.arrow_back_rounded
+                          : Icons.arrow_forward_rounded,
                       color: AppColors.primary,
                       size: 16,
                     ),
@@ -143,25 +152,25 @@ class _HistoryItem extends StatelessWidget {
       final h = dt.hour.toString().padLeft(2, '0');
       final m = dt.minute.toString().padLeft(2, '0');
 
-      if (itemDay == today) return 'Today, $h:$m';
+      if (itemDay == today) return '${'date.today'.tr}, $h:$m';
       if (itemDay == today.subtract(const Duration(days: 1))) {
-        return 'Yesterday, $h:$m';
+        return '${'date.yesterday'.tr}, $h:$m';
       }
-      final months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
+      final monthKeys = [
+        'date.jan',
+        'date.feb',
+        'date.mar',
+        'date.apr',
+        'date.may',
+        'date.jun',
+        'date.jul',
+        'date.aug',
+        'date.sep',
+        'date.oct',
+        'date.nov',
+        'date.dec',
       ];
-      return '${dt.day} ${months[dt.month - 1]}, $h:$m';
+      return '${dt.day} ${monthKeys[dt.month - 1].tr}, $h:$m';
     } catch (_) {
       return iso;
     }
@@ -225,9 +234,9 @@ class _HistoryItem extends StatelessWidget {
                         ),
                       )
                     else
-                      const Text(
-                        'Prepaid',
-                        style: TextStyle(
+                      Text(
+                        'home.prepaid'.tr,
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.info,
                           fontWeight: FontWeight.w500,

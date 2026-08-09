@@ -104,9 +104,9 @@ class _AppBar extends GetView<OrdersController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Pending Requests',
-                        style: TextStyle(
+                      Text(
+                        'orders.pendingRequests'.tr,
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color: Color(0xff1A1A2E),
@@ -116,8 +116,12 @@ class _AppBar extends GetView<OrdersController> {
                         final count = controller.orders.length;
                         return Text(
                           count == 0
-                              ? 'No requests right now'
-                              : '$count ${count == 1 ? 'request' : 'requests'} waiting',
+                              ? 'orders.noRequestsRightNow'.tr
+                              : 'orders.requestsWaitingSingular'.trPlural(
+                                  'orders.requestsWaitingPlural',
+                                  count,
+                                  ['$count'],
+                                ),
                           style: const TextStyle(
                             fontSize: 12,
                             color: Color(0xff6B7280),
@@ -147,95 +151,12 @@ class _AppBar extends GetView<OrdersController> {
               ],
             ),
 
-            const SizedBox(height: 14),
-
-            // ── Live indicator ───────────────────────────────────────
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.success.withValues(alpha: 0.08),
-                    AppColors.success.withValues(alpha: 0.04),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: AppColors.success.withValues(alpha: 0.25),
-                ),
-              ),
-              child: Row(
-                children: [
-                  _PulseDot(),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Listening for new requests…',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.success,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Animated pulse dot
-// ─────────────────────────────────────────────────────────────────────────────
-class _PulseDot extends StatefulWidget {
-  @override
-  State<_PulseDot> createState() => _PulseDotState();
-}
-
-class _PulseDotState extends State<_PulseDot>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _anim;
-  late final Animation<double> _scale;
-
-  @override
-  void initState() {
-    super.initState();
-    _anim = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    )..repeat(reverse: true);
-    _scale = Tween<double>(
-      begin: 0.6,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _anim, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _anim.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scale,
-      child: Container(
-        width: 9,
-        height: 9,
-        decoration: const BoxDecoration(
-          color: AppColors.success,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // Empty state
 // ─────────────────────────────────────────────────────────────────────────────
 class _EmptyState extends StatelessWidget {
@@ -264,19 +185,19 @@ class _EmptyState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'All caught up!',
-              style: TextStyle(
+            Text(
+              'orders.allCaughtUp'.tr,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Color(0xff1A1A2E),
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'No pending delivery requests right now.\nPull down to refresh.',
+            Text(
+              'orders.emptySubtitle'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: Color(0xff6B7280)),
+              style: const TextStyle(fontSize: 13, color: Color(0xff6B7280)),
             ),
             const SizedBox(height: 28),
             GestureDetector(
@@ -290,14 +211,18 @@ class _EmptyState extends StatelessWidget {
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(30),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.refresh_rounded, color: Colors.white, size: 18),
-                    SizedBox(width: 8),
+                    const Icon(
+                      Icons.refresh_rounded,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 8),
                     Text(
-                      'Refresh',
-                      style: TextStyle(
+                      'history.refresh'.tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                         fontSize: 14,

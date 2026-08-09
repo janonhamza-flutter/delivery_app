@@ -52,7 +52,7 @@ class _EmptyState extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.scaffold,
       appBar: AppBar(
-        title: const Text('Active Delivery'),
+        title: Text('activeDelivery.title'.tr),
         backgroundColor: AppColors.white,
         foregroundColor: AppColors.primary,
         elevation: 0,
@@ -82,27 +82,30 @@ class _EmptyState extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text(
-                    'No Active Delivery',
-                    style: TextStyle(
+                  Text(
+                    'activeDelivery.emptyTitle'.tr,
+                    style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: AppColors.black,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Text(
-                      'Accept a pending order and it will appear here.',
+                      'activeDelivery.emptySubtitle'.tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15, color: AppColors.darkGrey),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: AppColors.darkGrey,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Pull down to refresh',
-                    style: TextStyle(fontSize: 13, color: AppColors.grey),
+                  Text(
+                    'activeDelivery.pullToRefresh'.tr,
+                    style: const TextStyle(fontSize: 13, color: AppColors.grey),
                   ),
                 ],
               ),
@@ -138,11 +141,11 @@ class _ActiveDeliveryBody extends StatelessWidget {
   String _typeLabel(String type) {
     switch (type) {
       case 'device_pickup':
-        return 'Device Pickup';
+        return 'home.typeDevicePickup'.tr;
       case 'accessory_delivery':
-        return 'Accessory Delivery';
+        return 'orderDetails.typeAccessoryDelivery'.tr;
       case 'maintenance_delivery':
-        return 'Maintenance Delivery';
+        return 'orderDetails.typeMaintenanceDelivery'.tr;
       default:
         return type.replaceAll('_', ' ').capitalizeFirst ?? type;
     }
@@ -181,13 +184,13 @@ class _ActiveDeliveryBody extends StatelessWidget {
   String _statusLabel(String status) {
     switch (status) {
       case 'accepted':
-        return 'Accepted';
+        return 'status.accepted'.tr;
       case 'on_the_way':
-        return 'On The Way';
+        return 'status.onTheWay'.tr;
       case 'arrived':
-        return 'Arrived';
+        return 'status.arrived'.tr;
       case 'delivered':
-        return 'Delivered';
+        return 'status.delivered'.tr;
       default:
         return status.replaceAll('_', ' ').capitalizeFirst ?? status;
     }
@@ -228,9 +231,9 @@ class _ActiveDeliveryBody extends StatelessWidget {
               elevation: 0,
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.white,
-              title: const Text(
-                'Active Delivery',
-                style: TextStyle(
+              title: Text(
+                'activeDelivery.title'.tr,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppColors.white,
@@ -260,21 +263,21 @@ class _ActiveDeliveryBody extends StatelessWidget {
                   children: [
                     _StatusTracker(currentStatus: status),
                     const SizedBox(height: 24),
-                    _SectionLabel(label: 'Customer'),
+                    _SectionLabel(label: 'orderDetails.customer'.tr),
                     const SizedBox(height: 10),
                     _CustomerCard(
                       order: live,
                       onCall: () => _callCustomer(live.customerPhone),
                     ),
                     const SizedBox(height: 20),
-                    _SectionLabel(label: 'Pickup Location'),
+                    _SectionLabel(label: 'activeDelivery.pickupLocation'.tr),
                     const SizedBox(height: 10),
                     _LocationCard(
                       order: live,
                       onOpenMap: () => _openMaps(live.latitude, live.longitude),
                     ),
                     const SizedBox(height: 20),
-                    _SectionLabel(label: 'Payment'),
+                    _SectionLabel(label: 'activeDelivery.payment'.tr),
                     const SizedBox(height: 10),
                     _PaymentCard(order: live),
                     const SizedBox(height: 32),
@@ -377,7 +380,7 @@ class _HeroHeader extends StatelessWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'Request #$orderId',
+                          'orders.requestNumber'.trArgs(['$orderId']),
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
@@ -445,15 +448,27 @@ class _StatusTracker extends StatelessWidget {
   const _StatusTracker({required this.currentStatus});
   final String currentStatus;
 
-  static const _steps = [
-    (status: 'accepted', label: 'Accepted', icon: Icons.check_circle_rounded),
+  List<({String status, String label, IconData icon})> get _steps => [
+    (
+      status: 'accepted',
+      label: 'status.accepted'.tr,
+      icon: Icons.check_circle_rounded,
+    ),
     (
       status: 'on_the_way',
-      label: 'On The Way',
+      label: 'status.onTheWay'.tr,
       icon: Icons.directions_bike_rounded,
     ),
-    (status: 'arrived', label: 'Arrived', icon: Icons.location_on_rounded),
-    (status: 'delivered', label: 'Delivered', icon: Icons.done_all_rounded),
+    (
+      status: 'arrived',
+      label: 'status.arrived'.tr,
+      icon: Icons.location_on_rounded,
+    ),
+    (
+      status: 'delivered',
+      label: 'status.delivered'.tr,
+      icon: Icons.done_all_rounded,
+    ),
   ];
 
   int get _activeIdx => _steps.indexWhere((s) => s.status == currentStatus);
@@ -764,7 +779,7 @@ class _LocationCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Open in Google Maps',
+                    'orderDetails.openInMaps'.tr,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -773,7 +788,9 @@ class _LocationCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Icon(
-                    Icons.arrow_forward_ios_rounded,
+                    Directionality.of(context) == TextDirection.rtl
+                        ? Icons.arrow_back_ios_rounded
+                        : Icons.arrow_forward_ios_rounded,
                     size: 12,
                     color: _hasLocation ? AppColors.primary : AppColors.grey,
                   ),
@@ -834,9 +851,9 @@ class _PaymentCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Payment Method',
-                    style: TextStyle(
+                  Text(
+                    'orderDetails.paymentMethod'.tr,
+                    style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.grey,
                       fontWeight: FontWeight.w500,
@@ -844,7 +861,7 @@ class _PaymentCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    isCash ? 'Cash on Delivery' : '',
+                    isCash ? 'orders.cashOnDelivery'.tr : '',
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -880,7 +897,9 @@ class _PaymentCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      order.cashCollected ? 'Collected' : 'Pending',
+                      order.cashCollected
+                          ? 'activeDelivery.collected'.tr
+                          : 'status.pending'.tr,
                       style: TextStyle(
                         color: order.cashCollected
                             ? AppColors.success
@@ -958,21 +977,24 @@ class _CollectCashCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Collect Cash',
-                        style: TextStyle(
+                        'activeDelivery.collectCash'.tr,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: AppColors.black,
                         ),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
                       Text(
-                        'Enter the amount received from customer',
-                        style: TextStyle(fontSize: 13, color: AppColors.grey),
+                        'activeDelivery.enterAmountReceived'.tr,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -986,8 +1008,8 @@ class _CollectCashCard extends StatelessWidget {
                 ),
                 autofocus: true,
                 decoration: InputDecoration(
-                  labelText: 'Cash Amount',
-                  hintText: 'e.g. 75000',
+                  labelText: 'activeDelivery.cashAmountLabel'.tr,
+                  hintText: 'activeDelivery.cashAmountHint'.tr,
                   prefixIcon: const Icon(
                     Icons.currency_exchange_rounded,
                     color: AppColors.success,
@@ -1022,7 +1044,7 @@ class _CollectCashCard extends StatelessWidget {
                             );
                             if (amount == null || amount <= 0) {
                               AppSnackbar.error(
-                                'Please enter a valid cash amount.',
+                                'activeDelivery.invalidCashAmount'.tr,
                               );
                               return;
                             }
@@ -1041,14 +1063,17 @@ class _CollectCashCard extends StatelessWidget {
                               color: Colors.white,
                             ),
                           )
-                        : const Row(
+                        : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.check_circle_rounded, size: 20),
-                              SizedBox(width: 8),
+                              const Icon(
+                                Icons.check_circle_rounded,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
                               Text(
-                                'Confirm Collection',
-                                style: TextStyle(
+                                'activeDelivery.confirmCollection'.tr,
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -1106,22 +1131,25 @@ class _CollectCashCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 14),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Cash Collection Required',
-                        style: TextStyle(
+                        'activeDelivery.cashCollectionRequired'.tr,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 3),
+                      const SizedBox(height: 3),
                       Text(
-                        'Delivery is complete — collect payment',
-                        style: TextStyle(fontSize: 13, color: Colors.white70),
+                        'activeDelivery.deliveryCompleteCollectPayment'.tr,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Colors.white70,
+                        ),
                       ),
                     ],
                   ),
@@ -1142,14 +1170,14 @@ class _CollectCashCard extends StatelessWidget {
                   ),
                 ),
                 onPressed: () => _showCollectSheet(context, controller),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.attach_money_rounded, size: 20),
-                    SizedBox(width: 8),
+                    const Icon(Icons.attach_money_rounded, size: 20),
+                    const SizedBox(width: 8),
                     Text(
-                      'Record Cash Collection',
-                      style: TextStyle(
+                      'activeDelivery.recordCashCollection'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

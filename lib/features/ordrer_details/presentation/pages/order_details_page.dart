@@ -73,17 +73,17 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   String _statusLabelFor(OrderModel currentOrder) {
     switch (currentOrder.status.toLowerCase()) {
       case 'pending':
-        return 'Pending';
+        return 'status.pending'.tr;
       case 'accepted':
-        return 'Accepted';
+        return 'status.accepted'.tr;
       case 'on_the_way':
-        return 'On The Way';
+        return 'status.onTheWay'.tr;
       case 'arrived':
-        return 'Arrived';
+        return 'status.arrived'.tr;
       case 'delivered':
-        return 'Delivered';
+        return 'status.delivered'.tr;
       case 'cancelled':
-        return 'Cancelled';
+        return 'status.cancelled'.tr;
       default:
         return currentOrder.status.replaceAll('_', ' ').capitalizeFirst ??
             currentOrder.status;
@@ -106,11 +106,11 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   String _typeLabelFor(OrderModel currentOrder) {
     switch (currentOrder.type) {
       case 'device_pickup':
-        return 'Device Pickup';
+        return 'home.typeDevicePickup'.tr;
       case 'accessory_delivery':
-        return 'Accessory Delivery';
+        return 'orderDetails.typeAccessoryDelivery'.tr;
       case 'maintenance_delivery':
-        return 'Maintenance Delivery';
+        return 'orderDetails.typeMaintenanceDelivery'.tr;
       default:
         return currentOrder.type.replaceAll('_', ' ').capitalizeFirst ??
             currentOrder.type;
@@ -145,9 +145,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 statusLabel: _statusLabelFor(displayOrder),
               ),
             ),
-            title: const Text(
-              'Order Details',
-              style: TextStyle(
+            title: Text(
+              'orderDetails.title'.tr,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: AppColors.white,
@@ -186,28 +186,28 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                     const SizedBox(height: 24),
 
                     // Customer Card
-                    _SectionLabel(label: 'Customer'),
+                    _SectionLabel(label: 'orderDetails.customer'.tr),
                     const SizedBox(height: 10),
                     CustomerCard(order: displayOrder),
 
                     const SizedBox(height: 20),
 
                     // Address Card
-                    _SectionLabel(label: 'Order delivery locayion'),
+                    _SectionLabel(label: 'orderDetails.deliveryLocation'.tr),
                     const SizedBox(height: 10),
                     AddressCard(order: displayOrder),
 
                     const SizedBox(height: 20),
 
                     // Order / Device info
-                    _SectionLabel(label: 'Order Details'),
+                    _SectionLabel(label: 'orderDetails.title'.tr),
                     const SizedBox(height: 10),
                     DeviceCard(order: displayOrder),
 
                     // Maintenance info (only for device_pickup with maintenance data)
                     if (displayOrder.maintenanceTrackingNumber != null) ...[
                       const SizedBox(height: 20),
-                      _SectionLabel(label: 'Maintenance Info'),
+                      _SectionLabel(label: 'orderDetails.maintenanceInfo'.tr),
                       const SizedBox(height: 10),
                       _MaintenanceCard(order: displayOrder),
                     ],
@@ -444,7 +444,7 @@ class _PaymentBadgeRow extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Text(
-                isCash ? 'Cash on Delivery' : 'Prepaid',
+                isCash ? 'orders.cashOnDelivery'.tr : 'home.prepaid'.tr,
                 style: TextStyle(
                   color: payColor,
                   fontSize: 13,
@@ -481,7 +481,9 @@ class _PaymentBadgeRow extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  order.cashCollected ? 'Cash Collected' : 'Not Collected',
+                  order.cashCollected
+                      ? 'orderDetails.cashCollected'.tr
+                      : 'orderDetails.notCollected'.tr,
                   style: TextStyle(
                     color: order.cashCollected
                         ? AppColors.success
@@ -542,14 +544,14 @@ class _MaintenanceCard extends StatelessWidget {
             _InfoRow(
               icon: Icons.confirmation_number_rounded,
               iconColor: AppColors.primary,
-              label: 'Tracking Number',
+              label: 'orderDetails.trackingNumber'.tr,
               value: order.maintenanceTrackingNumber ?? '—',
             ),
             const SizedBox(height: 14),
             _InfoRow(
               icon: Icons.phone_android_rounded,
               iconColor: AppColors.info,
-              label: 'Device Model',
+              label: 'orderDetails.deviceModel'.tr,
               value: order.maintenanceDeviceModel ?? '—',
             ),
             const SizedBox(height: 14),
@@ -572,9 +574,9 @@ class _MaintenanceCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Maintenance Status',
-                      style: TextStyle(
+                    Text(
+                      'orderDetails.maintenanceStatus'.tr,
+                      style: const TextStyle(
                         fontSize: 12,
                         color: AppColors.grey,
                         fontWeight: FontWeight.w500,

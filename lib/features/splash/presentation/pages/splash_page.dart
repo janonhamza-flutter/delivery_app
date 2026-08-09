@@ -29,7 +29,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Use a shared loading duration so progress bar and logo animations match
-    final loadingDuration = const Duration(seconds: 7);
+    final loadingDuration = const Duration(seconds: 5);
 
     return Scaffold(
       backgroundColor: _deepPrimary,

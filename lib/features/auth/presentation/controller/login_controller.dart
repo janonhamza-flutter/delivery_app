@@ -53,7 +53,7 @@ class LoginController extends GetxController {
       // Get.snackbar("Error", e.response?.data["message"] ?? "Unknown Error");
 
       Get.snackbar(
-        "تنبيه",
+        'common.notice'.tr,
         ErrorHandler.getMessage(e),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,

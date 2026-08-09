@@ -132,21 +132,21 @@ class OtpController extends GetxController {
 
       await authRepository.sendOtp(phone: phone);
 
-      Get.snackbar("Success", "OTP sent again successfully");
+      Get.snackbar('common.success'.tr, 'auth.otpResentSuccess'.tr);
     } on DioException catch (e) {
       print("Status: ${e.response?.statusCode}");
       print("Data: ${e.response?.data}");
 
       Get.snackbar(
-        "Error",
-        e.response?.data["message"] ?? "Something went wrong",
+        'common.error'.tr,
+        e.response?.data["message"] ?? 'common.somethingWentWrong'.tr,
       );
     }
   }
 
   Future<void> verifyOtp() async {
     if (otpController.text.length != 5) {
-      Get.snackbar("Error", "Please enter the 5-digit verification code");
+      Get.snackbar('common.error'.tr, 'auth.enterFiveDigitCode'.tr);
       return;
     }
 
@@ -174,7 +174,7 @@ class OtpController extends GetxController {
       print("Status: ${e.response?.statusCode}");
       print("Data: ${e.response?.data}");
       Get.snackbar(
-        "تنبيه",
+        'common.notice'.tr,
         ErrorHandler.getMessage(e),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,

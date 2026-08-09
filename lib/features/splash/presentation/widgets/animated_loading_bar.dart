@@ -1,5 +1,6 @@
 import 'package:delivery_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Slim, premium progress indicator with a live percentage counter —
@@ -94,7 +95,7 @@ class _AnimatedLoadingBarState extends State<AnimatedLoadingBar>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'LOADING',
+                      'splash.loadingLabel'.tr,
                       style: GoogleFonts.montserrat(
                         color: AppColors.white.withOpacity(0.45),
                         fontSize: 10,

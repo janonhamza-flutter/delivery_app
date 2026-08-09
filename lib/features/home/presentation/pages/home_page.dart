@@ -48,7 +48,7 @@ class HomePage extends GetView<HomeController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Today's Deliveries",
+                      'home.todaysDeliveries'.tr,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -68,7 +68,11 @@ class HomePage extends GetView<HomeController> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          '$count ${count == 1 ? 'Order' : 'Orders'}',
+                          'home.orderSingular'.trPlural(
+                            'home.orderPlural',
+                            count,
+                            ['$count'],
+                          ),
                           style: const TextStyle(
                             color: AppColors.primary,
                             fontWeight: FontWeight.w600,
@@ -96,7 +100,7 @@ class HomePage extends GetView<HomeController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Delivery History",
+                      'home.deliveryHistory'.tr,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -105,9 +109,9 @@ class HomePage extends GetView<HomeController> {
                     ),
                     TextButton(
                       onPressed: () => Get.toNamed(AppRoutes.history),
-                      child: const Text(
-                        "See All",
-                        style: TextStyle(
+                      child: Text(
+                        'home.seeAll'.tr,
+                        style: const TextStyle(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w600,
                         ),

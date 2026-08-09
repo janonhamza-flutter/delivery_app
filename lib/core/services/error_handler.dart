@@ -1,25 +1,26 @@
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 
 class ErrorHandler {
   static String getMessage(DioException e) {
     switch (e.response?.statusCode) {
       case 401:
-        return "غير مصرح. الرجاء تسجيل الدخول مرة أخرى.";
+        return 'errors.unauthorized'.tr;
 
       case 403:
-        return "الحساب غير مفعل، يرجى التواصل مع الإدارة.";
+        return 'errors.accountInactive'.tr;
 
       case 404:
-        return "المورد غير موجود.";
+        return 'errors.notFound'.tr;
 
       case 422:
-        return e.response?.data["message"] ?? "البيانات المدخلة غير صحيحة.";
+        return e.response?.data["message"] ?? 'errors.invalidData'.tr;
 
       case 500:
-        return "حدث خطأ في الخادم.";
+        return 'errors.serverError'.tr;
 
       default:
-        return "تحقق من اتصال الإنترنت وحاول مرة أخرى.";
+        return 'errors.checkConnection'.tr;
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
@@ -15,7 +16,7 @@ class PhoneTextField extends StatelessWidget {
       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
 
       decoration: InputDecoration(
-        hintText: "Phone Number",
+        hintText: 'auth.phoneNumberHint'.tr,
         hintStyle: TextStyle(color: Colors.grey.shade500),
 
         filled: true,
@@ -74,11 +75,11 @@ class PhoneTextField extends StatelessWidget {
 
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          return "Phone number is required";
+          return 'auth.phoneRequired'.tr;
         }
 
         if (value.length != 9) {
-          return "Phone number must contain 9 digits";
+          return 'auth.phoneMustBe9Digits'.tr;
         }
 
         return null;
