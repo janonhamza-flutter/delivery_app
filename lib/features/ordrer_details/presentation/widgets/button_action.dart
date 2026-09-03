@@ -247,6 +247,108 @@ class ActionButtons extends StatelessWidget {
     );
   }
 
+  /// Dialog — worker may reject the request, with an optional reason.
+  void _showRejectDialog(BuildContext context, OrdersController controller) {
+    final reasonController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSizes.radius),
+        ),
+        title: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: AppColors.error.withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.cancel_rounded,
+                color: AppColors.error,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'orderDetails.rejectOrderTitle'.tr,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'orderDetails.rejectReasonLabel'.tr,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppColors.darkGrey,
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: reasonController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: 'orderDetails.rejectReasonHint'.tr,
+                filled: true,
+                fillColor: AppColors.scaffold,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              'common.cancel'.tr,
+              style: const TextStyle(color: AppColors.darkGrey),
+            ),
+          ),
+          Obx(
+            () => ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.error,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppSizes.radius),
+                ),
+              ),
+              onPressed: controller.isActionLoading.value
+                  ? null
+                  : () {
+                      final reason = reasonController.text.trim();
+                      Get.back();
+                      controller.rejectOrder(
+                        orderId: order.id,
+                        reason: reason.isEmpty ? null : reason,
+                      );
+                    },
+              child: Text('orderDetails.confirmReject'.tr),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   String _formatEtaLabel(int minutes) {
     if (minutes < 60) {
       return 'orderDetails.etaMinutesSingular'.trPlural(
@@ -275,6 +377,12 @@ class ActionButtons extends StatelessWidget {
       return true;
     }
 
+    // Picking the device up from the customer (before repair) has no
+    // completion requirement — only returning it after repair does.
+    if (order.direction != 'shop_to_customer') {
+      return true;
+    }
+
     final maintenanceStatus = order.maintenanceStatus?.trim().toLowerCase();
     return maintenanceStatus == 'completed';
   }
@@ -287,45 +395,88 @@ class ActionButtons extends StatelessWidget {
       final isLoading = controller.isActionLoading.value;
       final canAccept = _canAcceptOrder();
 
-      return SizedBox(
-        width: double.infinity,
-        height: AppSizes.buttonHeight,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.secondary,
-            foregroundColor: Colors.white,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSizes.radius),
-            ),
-          ),
-          onPressed: isLoading || !canAccept
-              ? null
-              : () => _showAcceptSheet(context, controller),
-          child: isLoading
-              ? const SizedBox(
-                  width: 22,
-                  height: 22,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    color: Colors.white,
+      return Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: AppSizes.buttonHeight,
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.error,
+                  side: const BorderSide(color: AppColors.error, width: 1.5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppSizes.radius),
                   ),
-                )
-              : Row(
+                ),
+                onPressed: isLoading
+                    ? null
+                    : () => _showRejectDialog(context, controller),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.check_circle_rounded, size: 20),
-                    const SizedBox(width: 8),
-                    Text(
-                      'orderDetails.acceptOrder'.tr,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    const Icon(Icons.cancel_rounded, size: 18),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        'orderDetails.rejectOrder'.tr,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
                 ),
-        ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: SizedBox(
+              height: AppSizes.buttonHeight,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.secondary,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppSizes.radius),
+                  ),
+                ),
+                onPressed: isLoading || !canAccept
+                    ? null
+                    : () => _showAcceptSheet(context, controller),
+                child: isLoading
+                    ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.check_circle_rounded, size: 18),
+                          const SizedBox(width: 6),
+                          Flexible(
+                            child: Text(
+                              'orderDetails.acceptOrder'.tr,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
+            ),
+          ),
+        ],
       );
     });
   }

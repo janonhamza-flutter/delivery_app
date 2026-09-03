@@ -13,7 +13,13 @@ class MainPage extends GetView<MainController> {
       () => Scaffold(
         body: IndexedStack(
           index: controller.currentIndex.value,
-          children: controller.pages,
+          children: [
+            for (var i = 0; i < controller.pages.length; i++)
+              if (controller.visitedIndices.contains(i))
+                controller.pages[i]
+              else
+                const SizedBox.shrink(),
+          ],
         ),
         bottomNavigationBar: const CustomBottomNavBar(),
       ),

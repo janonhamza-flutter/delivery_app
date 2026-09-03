@@ -134,9 +134,6 @@ class OtpController extends GetxController {
 
       Get.snackbar('common.success'.tr, 'auth.otpResentSuccess'.tr);
     } on DioException catch (e) {
-      print("Status: ${e.response?.statusCode}");
-      print("Data: ${e.response?.data}");
-
       Get.snackbar(
         'common.error'.tr,
         e.response?.data["message"] ?? 'common.somethingWentWrong'.tr,
@@ -153,26 +150,16 @@ class OtpController extends GetxController {
     try {
       isLoading.value = true;
 
-      print("Phone: $phone");
-      print("OTP: ${otpController.text}");
-
       final response = await authRepository.verifyOtp(
         phone: phone,
         code: otpController.text,
       );
 
-      print("Verify Success");
-      print(response.data);
-
-      // سنحفظ التوكن لاحقًا
       final token = response.data["data"]["token"];
       StorageService.saveToken(token);
 
-
       Get.offAllNamed(AppRoutes.main);
     } on DioException catch (e) {
-      print("Status: ${e.response?.statusCode}");
-      print("Data: ${e.response?.data}");
       Get.snackbar(
         'common.notice'.tr,
         ErrorHandler.getMessage(e),

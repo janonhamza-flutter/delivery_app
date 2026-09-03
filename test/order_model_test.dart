@@ -120,6 +120,53 @@ void main() {
     expect(shouldShowInRequests(accessory), isTrue);
   });
 
+  test('parses accessory from order.items[0].accessory', () {
+    final payload = {
+      'id': 100,
+      'type': 'accessory_delivery',
+      'payment_method': 'cash_on_delivery',
+      'status': 'pending',
+      'notes': null,
+      'customer': {
+        'first_name': 'ayman',
+        'last_name': 'albonny',
+        'phone': '+963958615343',
+      },
+      'shop': {'name': 'Al-Mazzah Main Center', 'address': 'Damascus'},
+      'order': {
+        'id': 76,
+        'order_number': 'ORD-B2XO6KNM',
+        'total_amount': 15,
+        'items': [
+          {
+            'id': 77,
+            'order_id': 76,
+            'accessory_id': 2,
+            'quantity': 1,
+            'unit_price': 15,
+            'accessory': {
+              'id': 2,
+              'shop_id': 1,
+              'name': 'iPhone 14 Pro Max Silicone Case',
+              'name_ar': 'iPhone 14 Pro Max Silicone Case',
+              'name_en': null,
+            },
+          },
+        ],
+      },
+    };
+
+    final order = OrderModel.fromJson(payload);
+
+    expect(order.accessory, isNotNull);
+    expect(order.accessory!.id, 2);
+    expect(order.accessory!.shopId, 1);
+    expect(order.accessory!.nameAr, 'iPhone 14 Pro Max Silicone Case');
+    expect(order.accessory!.nameEn, isNull);
+    expect(order.accessory!.localizedName, 'iPhone 14 Pro Max Silicone Case');
+    expect(order.orderNumber, 'ORD-B2XO6KNM');
+  });
+
   test('falls back to defaults when nested data is missing', () {
     final order = OrderModel.fromJson({
       'id': '99',

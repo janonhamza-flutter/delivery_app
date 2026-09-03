@@ -12,7 +12,7 @@ class OrdersRepository {
 
   Future<Response> getOrders({int page = 1}) async {
     return await dioService.getData(
-      endpoint: "/delivery/requests",
+      endpoint: "/delivery/requests?page=$page",
       token: StorageService.getToken(),
     );
   }
@@ -37,11 +37,13 @@ class OrdersRepository {
     );
   }
 
-  Future<Response> rejectOrder({required int orderId}) async {
+  Future<Response> rejectOrder({required int orderId, String? reason}) async {
     return await dioService.postData(
       endpoint: "/delivery/requests/$orderId/reject",
       token: StorageService.getToken(),
-      data: {},
+      data: reason != null && reason.trim().isNotEmpty
+          ? {"reason": reason.trim()}
+          : {},
     );
   }
 

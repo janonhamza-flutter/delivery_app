@@ -9,6 +9,7 @@ class DioService {
         baseUrl: "https://shamsung.haderin.sy/api/v1",
         connectTimeout: Duration(seconds: 30),
         receiveTimeout: Duration(seconds: 30),
+        sendTimeout: Duration(seconds: 30),
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json",

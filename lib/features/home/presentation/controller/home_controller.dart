@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/services/error_handler.dart';
@@ -34,7 +33,6 @@ class HomeController extends GetxController {
     try {
       isLoading.value = true;
       final response = await homeRepository.getEarnings();
-      debugPrint('Earnings API response: ${response.data}');
       earnings.value = EarningsModel.fromJson(response.data);
     } on DioException catch (e) {
       AppSnackbar.error(ErrorHandler.getMessage(e));

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -87,9 +88,12 @@ class ActiveDeliveryController extends GetxController {
       );
       AppSnackbar.success(response.data["message"]);
 
-      // Refresh to reflect the new status
-      await fetchActiveOrder();
-      await Get.find<HistoryController>().fetchHistory();
+      // Refresh to reflect the new status — these are independent GETs to
+      // different endpoints, so run them concurrently instead of back-to-back.
+      await Future.wait([
+        fetchActiveOrder(),
+        Get.find<HistoryController>().fetchHistory(),
+      ]);
     } on DioException catch (e) {
       AppSnackbar.error(ErrorHandler.getMessage(e));
     } catch (e) {
@@ -152,7 +156,8 @@ class ActiveDeliveryController extends GetxController {
       );
 
       activeOrder.value = deliveredOrder;
-      await Get.find<HistoryController>().fetchHistory();
+      // Background refresh — doesn't gate the cash-check/navigation below.
+      unawaited(Get.find<HistoryController>().fetchHistory());
 
       // If no cash to collect → done
       final needsCash =
@@ -188,8 +193,8 @@ class ActiveDeliveryController extends GetxController {
       );
       AppSnackbar.success(response.data["message"]);
 
-      // All done — clear and go home
-      await Get.find<HistoryController>().fetchHistory();
+      // All done — clear and go home; history refresh runs in the background.
+      unawaited(Get.find<HistoryController>().fetchHistory());
       StorageService.clearActiveOrderId();
       activeOrder.value = null;
       Get.offAllNamed(AppRoutes.main);
@@ -209,29 +214,6 @@ class ActiveDeliveryController extends GetxController {
       final data = response.data["data"] as Map<String, dynamic>;
       activeOrder.value = OrderModel.fromJson(data);
     } catch (_) {}
-  }
-
-  // ── Reject / release back to queue ─────────────────────────────────────────
-
-  Future<void> rejectOrder({required int orderId}) async {
-    try {
-      isActionLoading.value = true;
-      final response = await repository.rejectOrder(orderId: orderId);
-      AppSnackbar.success(response.data["message"]);
-
-      // Clear stored id — no longer active
-      await Get.find<HistoryController>().fetchHistory();
-      StorageService.clearActiveOrderId();
-      activeOrder.value = null;
-
-      Get.offAllNamed(AppRoutes.main);
-    } on DioException catch (e) {
-      AppSnackbar.error(ErrorHandler.getMessage(e));
-    } catch (e) {
-      AppSnackbar.error(e.toString());
-    } finally {
-      isActionLoading.value = false;
-    }
   }
 
   // ── Open maps ──────────────────────────────────────────────────────────────

@@ -134,6 +134,8 @@ const Map<String, String> arSA = {
   'orderDetails.paymentMethod': 'طريقة الدفع',
   'orderDetails.cost': 'التكلفة',
   'orderDetails.accessoryOrderNumber': 'رقم طلب الاكسسورات',
+  'orderDetails.productName': 'اسم المنتج',
+  'orderDetails.notes': 'ملاحظات',
   'orderDetails.confirmAcceptTitle': 'تأكيد قبول الطلب',
   'orderDetails.selectEta': 'حدد الوقت المتوقع للوصول',
   'orderDetails.etaMinutesSingular': '%s دقيقة',
@@ -144,6 +146,11 @@ const Map<String, String> arSA = {
   'orderDetails.expectedArrival': 'الوصول المتوقع: %s',
   'orderDetails.confirmAccept': 'تأكيد القبول',
   'orderDetails.acceptOrder': 'قبول الطلب',
+  'orderDetails.rejectOrder': 'رفض',
+  'orderDetails.rejectOrderTitle': 'رفض الطلب',
+  'orderDetails.rejectReasonLabel': 'السبب (اختياري)',
+  'orderDetails.rejectReasonHint': 'أخبر المتجر بسبب رفض هذا الطلب',
+  'orderDetails.confirmReject': 'تأكيد الرفض',
 
   // Active Delivery page
   'activeDelivery.title': 'التوصيل النشط',
@@ -169,10 +176,6 @@ const Map<String, String> arSA = {
   'deliveryActions.enterConfirmationCode': 'أدخل رمز التأكيد',
   'deliveryActions.confirmationCodeLabel': 'رمز التأكيد',
   'deliveryActions.confirmationCodeHint': 'مثال: CONF-9988',
-  'deliveryActions.cancelAcceptTitle': 'إلغاء قبول الطلب',
-  'deliveryActions.cancelAcceptSubtitle':
-      'هل أنت متأكد؟ سيعود الطلب إلى قائمة الانتظار\nويمكن لعامل آخر قبوله.',
-  'deliveryActions.confirmCancellation': 'تأكيد الإلغاء',
   'deliveryActions.onMyWay': 'أنا في الطريق',
   'deliveryActions.arrived': 'لقد وصلت',
   'deliveryActions.availableAfterArrive': 'متاح بعد الوصول',

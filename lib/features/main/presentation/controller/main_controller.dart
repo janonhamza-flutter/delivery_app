@@ -9,8 +9,15 @@ import '../../../profile/presentaion/pages/profile_page.dart';
 class MainController extends GetxController {
   final currentIndex = 0.obs;
 
+  // Tracks which tabs have been visited, so IndexedStack only builds a tab's
+  // page (and triggers its controller's onInit API call) once the user
+  // actually opens it, instead of firing all four tabs' initial fetches
+  // concurrently on app start.
+  final RxSet<int> visitedIndices = <int>{0}.obs;
+
   void changePage(int index) {
     currentIndex.value = index;
+    visitedIndices.add(index);
   }
 
   // index 0 → Home

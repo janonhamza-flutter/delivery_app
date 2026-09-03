@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 int? _parseInt(dynamic value) {
   if (value is int) return value;
   if (value is num) return value.toInt();
@@ -24,9 +26,47 @@ Map<String, dynamic> _normalizeJsonMap(dynamic value) {
   return <String, dynamic>{};
 }
 
+class AccessoryModel {
+  final int id;
+  final int? shopId;
+  final String? name;
+  final String? nameAr;
+  final String? nameEn;
+
+  AccessoryModel({
+    required this.id,
+    this.shopId,
+    this.name,
+    this.nameAr,
+    this.nameEn,
+  });
+
+  factory AccessoryModel.fromJson(Map<String, dynamic> json) {
+    return AccessoryModel(
+      id: _parseInt(json["id"]) ?? 0,
+      shopId: _parseInt(json["shop_id"]),
+      name: json["name"]?.toString(),
+      nameAr: json["name_ar"]?.toString(),
+      nameEn: json["name_en"]?.toString(),
+    );
+  }
+
+  /// Product name in the app's current language, falling back to whatever
+  /// name is available.
+  String get localizedName {
+    final isArabic = Get.locale?.languageCode == 'ar';
+    final preferred = isArabic ? nameAr : nameEn;
+    if (preferred != null && preferred.isNotEmpty) return preferred;
+    final fallback = isArabic ? nameEn : nameAr;
+    if (fallback != null && fallback.isNotEmpty) return fallback;
+    return name ?? '';
+  }
+}
+
 class OrderModel {
   final int id;
   final String type;
+  final String? direction;
   final String status;
   final String paymentMethod;
   final bool cashCollected;
@@ -54,12 +94,16 @@ class OrderModel {
   final String? maintenanceCustomerStatus;
   final String? estimatedCost;
 
+  // Accessory details (for accessory_delivery type)
+  final AccessoryModel? accessory;
+
   final double? latitude;
   final double? longitude;
 
   OrderModel({
     required this.id,
     required this.type,
+    this.direction,
     required this.status,
     required this.paymentMethod,
     this.cashCollected = false,
@@ -81,6 +125,7 @@ class OrderModel {
     this.maintenanceStatus,
     this.maintenanceCustomerStatus,
     this.estimatedCost,
+    this.accessory,
     required this.latitude,
     required this.longitude,
   });
@@ -101,6 +146,23 @@ class OrderModel {
       final order = data["order"] is Map
           ? Map<String, dynamic>.from(data["order"] as Map)
           : <String, dynamic>{};
+
+      // The accessory object may sit at the top level, on the nested
+      // "order", or on the first line item of an "items" array (whichever
+      // of those the backend attaches it to).
+      final items = data["items"] is List
+          ? data["items"] as List
+          : (order["items"] is List ? order["items"] as List : const []);
+      final firstItem = items.isNotEmpty && items.first is Map
+          ? Map<String, dynamic>.from(items.first as Map)
+          : <String, dynamic>{};
+
+      final rawAccessory =
+          data["accessory"] ?? order["accessory"] ?? firstItem["accessory"];
+      final accessory = rawAccessory is Map
+          ? AccessoryModel.fromJson(Map<String, dynamic>.from(rawAccessory))
+          : null;
+
       final inferredType = data["type"]?.toString() ??
           (data["items"] is List ? 'accessory_delivery' : '');
       final directCustomerId = data["customer_id"]?.toString();
@@ -108,6 +170,7 @@ class OrderModel {
       return OrderModel(
         id: _parseInt(data["id"]) ?? 0,
         type: inferredType,
+        direction: data["direction"]?.toString(),
         status: data["status"]?.toString() ?? "",
         paymentMethod: data["payment_method"]?.toString() ?? "",
         cashCollected: data["cash_collected"] is bool
@@ -156,6 +219,7 @@ class OrderModel {
         maintenanceDeviceModel: maintenance?["device_model"]?.toString(),
         maintenanceStatus: maintenance?["status"]?.toString(),
         maintenanceCustomerStatus: maintenance?["customer_status"]?.toString(),
+        accessory: accessory,
         estimatedCost: maintenance?["estimated_cost"]?.toString(),
 
         latitude: double.tryParse(data["latitude"]?.toString() ?? ""),
@@ -180,5 +244,41 @@ class OrderModel {
         longitude: null,
       );
     }
+  }
+
+  OrderModel copyWith({
+    String? status,
+    bool? cashCollected,
+    String? confirmedAt,
+  }) {
+    return OrderModel(
+      id: id,
+      type: type,
+      direction: direction,
+      status: status ?? this.status,
+      paymentMethod: paymentMethod,
+      cashCollected: cashCollected ?? this.cashCollected,
+      confirmedAt: confirmedAt ?? this.confirmedAt,
+      notes: notes,
+      createdAt: createdAt,
+      deliveryWorkerId: deliveryWorkerId,
+      customerId: customerId,
+      shopId: shopId,
+      customerName: customerName,
+      customerPhone: customerPhone,
+      shopName: shopName,
+      shopAddress: shopAddress,
+      address: address,
+      orderNumber: orderNumber,
+      totalAmount: totalAmount,
+      maintenanceTrackingNumber: maintenanceTrackingNumber,
+      maintenanceDeviceModel: maintenanceDeviceModel,
+      maintenanceStatus: maintenanceStatus,
+      maintenanceCustomerStatus: maintenanceCustomerStatus,
+      estimatedCost: estimatedCost,
+      accessory: accessory,
+      latitude: latitude,
+      longitude: longitude,
+    );
   }
 }

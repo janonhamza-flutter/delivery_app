@@ -18,8 +18,6 @@ class LoginController extends GetxController {
   final isLoading = false.obs;
 
   Future<void> sendOtp() async {
-    print("sendOtp called");
-
     if (!formKey.currentState!.validate()) return;
 
     try {
@@ -36,22 +34,10 @@ class LoginController extends GetxController {
       // إضافة مفتاح سوريا
       phone = "+963$phone";
 
-      print("Phone Sent: $phone");
-      print("Before API");
-
-      final response = await authRepository.sendOtp(phone: phone);
-      print(response.data);
-
-      print("API Success");
+      await authRepository.sendOtp(phone: phone);
 
       Get.toNamed(AppRoutes.otp, arguments: phone);
     } on DioException catch (e) {
-      print("Status: ${e.response?.statusCode}");
-      print("Data: ${e.response?.data}");
-      print("Message: ${e.message}");
-
-      // Get.snackbar("Error", e.response?.data["message"] ?? "Unknown Error");
-
       Get.snackbar(
         'common.notice'.tr,
         ErrorHandler.getMessage(e),

@@ -1048,7 +1048,6 @@ class _CollectCashCard extends StatelessWidget {
                               );
                               return;
                             }
-                            Get.back();
                             controller.collectCash(
                               orderId: order.id,
                               cashAmount: amount,

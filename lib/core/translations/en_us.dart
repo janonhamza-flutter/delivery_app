@@ -135,6 +135,8 @@ const Map<String, String> enUS = {
   'orderDetails.paymentMethod': 'Payment Method',
   'orderDetails.cost': 'Cost',
   'orderDetails.accessoryOrderNumber': 'Accessory Order Number',
+  'orderDetails.productName': 'Product Name',
+  'orderDetails.notes': 'Notes',
   'orderDetails.confirmAcceptTitle': 'Confirm Accept Order',
   'orderDetails.selectEta': 'Select the estimated arrival time',
   'orderDetails.etaMinutesSingular': '%s minute',
@@ -145,6 +147,11 @@ const Map<String, String> enUS = {
   'orderDetails.expectedArrival': 'Expected arrival: %s',
   'orderDetails.confirmAccept': 'Confirm Acceptance',
   'orderDetails.acceptOrder': 'Accept Order',
+  'orderDetails.rejectOrder': 'Reject',
+  'orderDetails.rejectOrderTitle': 'Reject Request',
+  'orderDetails.rejectReasonLabel': 'Reason (optional)',
+  'orderDetails.rejectReasonHint': 'Let the shop know why you\'re rejecting this request',
+  'orderDetails.confirmReject': 'Reject Request',
 
   // Active Delivery page
   'activeDelivery.title': 'Active Delivery',
@@ -170,10 +177,6 @@ const Map<String, String> enUS = {
   'deliveryActions.enterConfirmationCode': 'Enter confirmation code',
   'deliveryActions.confirmationCodeLabel': 'Confirmation Code',
   'deliveryActions.confirmationCodeHint': 'e.g. CONF-9988',
-  'deliveryActions.cancelAcceptTitle': 'Cancel Order Acceptance',
-  'deliveryActions.cancelAcceptSubtitle':
-      'Are you sure? The order will return to the queue\nand another worker can accept it.',
-  'deliveryActions.confirmCancellation': 'Confirm Cancellation',
   'deliveryActions.onMyWay': "I'm On The Way",
   'deliveryActions.arrived': "I've Arrived",
   'deliveryActions.availableAfterArrive': 'Available after you arrive',
